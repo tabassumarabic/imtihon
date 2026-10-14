@@ -6,7 +6,7 @@
 <title>Tabassum — imtihon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="uslub.css">
+<link rel="stylesheet" href="uslub.css?v=5c5724e5">
 <style>
 .top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .top .who{margin-left:auto;text-align:right;font-weight:800;font-size:14px;color:var(--soft)}
@@ -151,8 +151,8 @@ audio{width:100%}
   <path d="M0 90Q260 40 520 80T1000 65T1200 80V120H0Z" fill="#CFAE78"/>
 </svg>
 
-<script src="ombor.js"></script>
-<script src="bank.js"></script>
+<script src="ombor.js?v=358fe828"></script>
+<script src="bank.js?v=5be9fc34"></script>
 <script>
 (function(){
   var B = window.BANK;
@@ -317,7 +317,18 @@ audio{width:100%}
   }
   function soatTox(){ clearInterval(SOAT.t); SOAT.otdi = true; $("soat").hidden = true; }
 
+  // Brauzer eski faylni xotiradan olgan bo'lsa (yangi savol turlari yo'q) — bir marta to'liq qayta yuklaymiz
+  function eskiFayl(){
+    if (B.suhbatlar && B.matnlar) return false;
+    var bor = false; try { bor = sessionStorage.getItem("imt_qayta") === "1"; sessionStorage.setItem("imt_qayta", "1"); } catch(e){}
+    if (!bor){ location.replace(location.pathname + "?r=" + Date.now()); return true; }
+    xatoEkran("Sahifa eskirgan", "Brauzer xotirasini tozalang yoki boshqa brauzerda oching (Chrome). Javoblaringiz saqlangan.");
+    return true;
+  }
+  function kodXato(ex){ return ex && !/fetch|network|HTTP|yopiq/i.test(String(ex.message)) && (ex instanceof TypeError || ex instanceof ReferenceError); }
+
   function savolBoshla(bolim){
+    if (eskiFayl()) return;
     soatBoshla("yozma", yozmaTugadi).then(function(qoldi){
       if (qoldi <= 0) return;
       S = { bolim: bolim, savollar: tuz(bolim), i: 0, javoblar: [] };
@@ -325,6 +336,7 @@ audio{width:100%}
       ekran("s-savol"); chiz();
     }).catch(function(ex){
       if (/yopiq/.test(ex && ex.message)) return xatoEkran("Imtihon yopilgan", "Ustozingiz imtihonni yopgan.");
+      if (kodXato(ex)) return xatoEkran("Xatolik yuz berdi", "Sahifani yangilang. Takrorlansa, ustozga shu yozuvni yuboring: " + ex.message);
       xatoEkran("Internet yo'q", "Sahifani yangilang — javoblaringiz saqlangan.");
     });
   }
@@ -543,6 +555,7 @@ audio{width:100%}
   if (OMBOR.get("imt_sinov") === "1") window.__imt = function(){ return S; };
 
   // ---------- boshlash ----------
+  if (B.suhbatlar && B.matnlar) { try { sessionStorage.removeItem("imt_qayta"); } catch(e){} }
   if (kalit) yangila().then(davom).catch(function(){ ekran("s-kirish"); });
   else ekran("s-kirish");
 })();
