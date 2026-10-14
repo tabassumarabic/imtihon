@@ -17,6 +17,8 @@
 .st i{display:block;font-style:normal;font-size:20px}
 .st.on{background:var(--brand);color:#fff;box-shadow:0 3px 0 var(--brand-d)}
 .st.done{background:#DDE3C0;color:#3F6B24}
+.soat{position:sticky;top:8px;z-index:20;margin:0 auto 12px;width:max-content;max-width:100%;background:var(--ink);color:#fff;font-weight:900;padding:7px 16px;border-radius:99px;font-variant-numeric:tabular-nums;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.soat.kam{background:var(--red);animation:pulse 1.2s infinite}
 .prog{height:12px;border-radius:99px;background:var(--sand);overflow:hidden;margin-bottom:6px}
 .prog u{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .3s}
 .progt{font-weight:800;font-size:13px;color:var(--soft);margin-bottom:16px;display:flex;justify-content:space-between}
@@ -89,6 +91,8 @@ audio{width:100%}
     <div class="who" id="who"></div>
   </div>
 
+  <div class="soat" id="soat" hidden></div>
+
   <!-- 1. Kirish -->
   <form class="card" id="s-kirish" novalidate onsubmit="return false">
     <h1 style="font-size:26px;font-weight:900">A0 imtihoni</h1>
@@ -109,7 +113,7 @@ audio{width:100%}
     <div class="intro-row"><i>📖</i><div><b>O'qish · 10 savol</b><span>So'z, gap va kichik matnni o'qib, savollarga javob bering</span></div></div>
     <div class="intro-row"><i>✍️</i><div><b>Yozish · 8 savol</b><span>Harflardan so'z yig'ing, tushib qolgan harfni toping</span></div></div>
     <div class="intro-row"><i>🗣</i><div><b>Gapirish · 5 savol</b><span>Savolni eshitasiz va ovoz bilan javob berasiz. Ustoz baholaydi</span></div></div>
-    <p class="rules">✅ O'tish uchun: umumiy ball kamida <b>70%</b> va har bir qismdan kamida <b>50%</b>.<br>🎧 Quloqchin taqing, tinch joyda topshiring. Javoblaringizni faqat ustoz eshitadi — boshqalar bilan bir xonada bo'lsangiz, past ovozda gapiring.</p>
+    <p class="rules">⏱ Tinglash, O'qish va Yozishga <b>jami 20 daqiqa</b>, Gapirishga <b>10 daqiqa</b>. Vaqt tugasa, javob berilmagan savollar xato hisoblanadi.<br>✅ O'tish uchun: umumiy ball kamida <b>70%</b> va har bir qismdan kamida <b>50%</b>.<br>🎧 Quloqchin taqing, tinch joyda topshiring. Javoblaringizni faqat ustoz eshitadi — boshqalar bilan bir xonada bo'lsangiz, past ovozda gapiring.</p>
     <button class="btn wide" id="intro-go" style="margin-top:18px">Boshladik!</button>
   </div>
 
@@ -294,10 +298,53 @@ audio{width:100%}
   var S = null; // { bolim, savollar, i, javoblar, tanlov, qurilgan, plays }
   var player = new Audio();
 
+  // ---------- soat (ombor soati bo'yicha) ----------
+  var SOAT = { t: null };
+  function soatBoshla(qism, tugaganda){
+    return OMBOR.rpc("imt_vaqt", { p_kalit: kalit, p_qism: qism }).then(function(d){
+      if (d.xato) throw new Error(d.xato);
+      clearInterval(SOAT.t);
+      SOAT = { t: null, qism: qism, tugash: Date.now() + d.qoldi * 1000, tugaganda: tugaganda, otdi: false };
+      tiq(); SOAT.t = setInterval(tiq, 500);
+      return d.qoldi;
+    });
+  }
+  function tiq(){
+    var s = Math.max(0, Math.round((SOAT.tugash - Date.now()) / 1000)), el = $("soat");
+    el.textContent = "⏱ " + Math.floor(s / 60) + ":" + ("0" + s % 60).slice(-2) + (SOAT.qism === "yozma" ? " · Tinglash, O'qish, Yozish" : " · Gapirish");
+    el.classList.toggle("kam", s <= 120); el.hidden = false;
+    if (s <= 0 && !SOAT.otdi){ SOAT.otdi = true; clearInterval(SOAT.t); SOAT.tugaganda && SOAT.tugaganda(); }
+  }
+  function soatTox(){ clearInterval(SOAT.t); SOAT.otdi = true; $("soat").hidden = true; }
+
   function savolBoshla(bolim){
-    S = { bolim: bolim, savollar: tuz(bolim), i: 0, javoblar: [] };
-    $("steps").innerHTML = stepsHtml(bolim);
-    ekran("s-savol"); chiz();
+    soatBoshla("yozma", yozmaTugadi).then(function(qoldi){
+      if (qoldi <= 0) return;
+      S = { bolim: bolim, savollar: tuz(bolim), i: 0, javoblar: [] };
+      $("steps").innerHTML = stepsHtml(bolim);
+      ekran("s-savol"); chiz();
+    }).catch(function(ex){
+      if (/yopiq/.test(ex && ex.message)) return xatoEkran("Imtihon yopilgan", "Ustozingiz imtihonni yopgan.");
+      xatoEkran("Internet yo'q", "Sahifani yangilang — javoblaringiz saqlangan.");
+    });
+  }
+
+  // 20 daqiqa tugadi: joriy bo'lim shu paytgacha javoblar bilan, qolgan bo'limlar 0 bilan saqlanadi
+  function yozmaTugadi(){
+    player.pause();
+    var n = natija(), ishlar = [];
+    if (S && n[S.bolim] == null){
+      var togri = S.javoblar.filter(function(x){ return x.ok; }).length;
+      ishlar.push({ b: S.bolim, ball: Math.round(togri * 100 / S.savollar.length), j: S.javoblar });
+    }
+    ["tinglash", "oqish", "yozish"].forEach(function(b){ if (n[b] == null && !(S && S.bolim === b)) ishlar.push({ b: b, ball: 0, j: [] }); });
+    S = null;
+    $("steps").innerHTML = stepsHtml(""); ekran("s-savol");
+    $("q").innerHTML = '<div class="q-text">⏱ Vaqt tugadi</div><p class="soft">Javoblaringiz saqlanmoqda. Endi Gapirish qismi boshlanadi…</p>';
+    ishlar.reduce(function(pr, x){
+      return pr.then(function(){ return OMBOR.rpc("imt_bolim", { p_kalit: kalit, p_bolim: x.b, p_ball: x.ball, p_javob: x.j }); });
+    }, Promise.resolve()).then(function(){ return yangila(); }).then(function(){ setTimeout(davom, 1500); })
+      .catch(function(){ xatoEkran("Internet yo'q", "Sahifani yangilang — javoblaringiz saqlangan."); });
   }
   function ijro(matn){ var f = B.audio[matn]; if (!f) return; player.src = f; player.currentTime = 0; player.play().catch(function(){}); }
 
@@ -344,6 +391,7 @@ audio{width:100%}
   }
 
   function keyingi(){
+    if (!S) return;
     var q = S.savollar[S.i];
     var javob = q.tiles ? S.qurilgan.map(function(i){ return q.tiles[i]; }).join("") : S.tanlov;
     S.javoblar.push({ s: q.matn + (q.ar ? " · " + q.ar : q.audio ? " · 🔊 " + q.audio : ""), j: String(javob), t: String(q.togri), ok: String(javob) === String(q.togri) });
@@ -352,8 +400,11 @@ audio{width:100%}
     var togri = S.javoblar.filter(function(x){ return x.ok; }).length;
     var ball = Math.round(togri * 100 / S.javoblar.length);
     $("next").disabled = true; $("next").textContent = "Saqlanmoqda…";
-    OMBOR.rpc("imt_bolim", { p_kalit: kalit, p_bolim: S.bolim, p_ball: ball, p_javob: S.javoblar }).then(function(d){
+    var bolim = S.bolim;
+    OMBOR.rpc("imt_bolim", { p_kalit: kalit, p_bolim: bolim, p_ball: ball, p_javob: S.javoblar }).then(function(d){
       if (d && d.xato === "yopiq") return xatoEkran("Imtihon yopilgan", "Ustozingiz imtihonni yopgan.");
+      if (SOAT.otdi && SOAT.qism === "yozma") return;  // vaqt tugab, yozmaTugadi o'zi davom ettiradi
+      S = null;
       return yangila().then(davom);
     }).catch(function(){
       $("next").disabled = false; $("next").textContent = "Qayta urinish ↻";
@@ -373,6 +424,11 @@ audio{width:100%}
         .then(function(d){ if (d.xato) throw new Error(d.xato); return d.gsavollar; });
     tayyor.then(function(list){
       G.list = list;
+      if (SOAT.qism !== "gapirish" || SOAT.otdi) return soatBoshla("gapirish", gapVaqtTugadi).then(function(q){ return [list, q]; });
+      return [list, 1];
+    }).then(function(r){
+      var list = r[0];
+      if (r[1] <= 0 || G.vaqtTugadi) return tugat();
       var bor = (holat.audio || []);
       G.i = list.map(function(_, k){ return k + 1; }).filter(function(n){ return bor.indexOf(n) < 0; })[0];
       if (!G.i) return tugat();
@@ -421,6 +477,7 @@ audio{width:100%}
         var a = $("tinglash"); a.src = URL.createObjectURL(blob); a.hidden = false;
         $("recbtns").hidden = false; $("mic").hidden = true; $("mic").classList.remove("on");
         $("timer").textContent = "Eshitib ko'ring. Yaxshi bo'lsa — yuboring";
+        if (G.vaqtTugadi) yubor();
       };
       rec.start(); $("mic").classList.add("on");
       var t0 = Date.now();
@@ -438,13 +495,25 @@ audio{width:100%}
       var data = String(fr.result).split(",")[1];
       OMBOR.rpc("imt_audio_yukla", { p_kalit: kalit, p_n: G.i, p_mime: blob.type, p_data: data }).then(function(d){
         if (d && d.xato === "yopiq") return xatoEkran("Imtihon yopilgan", "Ustozingiz imtihonni yopgan.");
+        if (d && d.xato === "vaqt") return tugat();
         if (d && d.xato){ $("g-err").textContent = d.xato === "hajm" ? "Ovoz juda uzun yoki juda qisqa" : "Yuborilmadi"; b.disabled = false; b.textContent = "Yuborish ✓"; return; }
-        return yangila().then(gapirishBoshla);
+        return yangila().then(G.vaqtTugadi ? tugat : gapirishBoshla);
       }).catch(function(){ $("g-err").textContent = "Internet yo'q — qayta bosing"; b.disabled = false; b.textContent = "Yuborish ✓"; });
     };
     fr.readAsDataURL(blob);
   }
+  // 10 daqiqa tugadi: yozilayotgan yoki yozib bo'lingan ovoz yuboriladi, keyin imtihon yakunlanadi
+  function gapVaqtTugadi(){
+    G.vaqtTugadi = true; player.pause();
+    if ($("mic")) $("mic").disabled = true;
+    if ($("g-err")) $("g-err").textContent = "⏱ Vaqt tugadi";
+    if (rec && rec.state === "recording") { toxta(); return; }   // onstop -> yubor()
+    if (blob && $("yubor") && !$("yubor").disabled) { yubor(); return; }
+    if ($("yubor") && $("yubor").disabled) return;                // yuborilmoqda -> keyin tugat
+    tugat();
+  }
   function tugat(){
+    soatTox();
     OMBOR.rpc("imt_tugat", { p_kalit: kalit }).then(function(){ return yangila(); }).then(natijaEkran)
       .catch(function(){ xatoEkran("Internet yo'q", "Sahifani yangilang — javoblaringiz saqlangan."); });
   }
@@ -452,6 +521,7 @@ audio{width:100%}
   // ---------- 4. natija ----------
   function rang(p){ return p >= 70 ? "var(--green)" : p >= 50 ? "var(--gold)" : "var(--red)"; }
   function natijaEkran(){
+    soatTox();
     var n = natija(), v = $("verdict");
     if (n.xulosa === "otdi"){ v.className = "verdict ok"; v.innerHTML = '<div class="big">🎉</div><h2>Tabriklaymiz! O\'tdingiz</h2><p>Umumiy ball: ' + n.umumiy + '%</p>'; }
     else if (n.xulosa === "yiqildi"){ v.className = "verdict no"; v.innerHTML = '<div class="big">😔</div><h2>Bu safar o\'tmadingiz</h2><p>Umumiy ball: ' + n.umumiy + '%. Ustozingiz bilan qayta topshirish haqida gaplashing.</p>'; }

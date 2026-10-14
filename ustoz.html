@@ -222,11 +222,11 @@ h1{font-size:28px;font-weight:900}
       var bor = x.audio.indexOf(k + 1) >= 0;
       h += '<div class="task"><div><b>' + (k + 1) + '. ' + (v.rasm ? v.rasm + ' ' : '') + '<span class="ar">' + esc(v.savol) + '</span></b>' +
         '<small>Kutilgan javob: <span class="ar">' + esc(v.kutilgan) + '</span></small>' +
-        (bor ? '<div style="margin-top:6px"><button class="btn sm alt" data-play="' + (k + 1) + '">▶ Eshitish</button> <audio id="au' + (k + 1) + '" controls hidden style="width:100%;margin-top:6px"></audio></div>' : '<div><small>Ovoz yuborilmagan</small></div>') +
+        (bor ? '<div style="margin-top:6px"><button class="btn sm alt" data-play="' + (k + 1) + '">▶ Eshitish</button> <audio id="au' + (k + 1) + '" controls hidden style="width:100%;margin-top:6px"></audio></div>' : '<div><small>' + (x.natija.tugagan ? '⏱ Vaqt tugab, ovoz yuborilmagan — 0 baho bering' : 'Ovoz hali yuborilmagan') + '</small></div>') +
         '</div><div class="score" data-k="' + k + '">' + [0, 1, 2, 3, 4, 5].map(function(s){
           return '<button type="button" data-s="' + s + '"' + (baho[k] === s ? ' class="on"' : "") + '>' + s + '</button>'; }).join("") + '</div></div>';
     });
-    h += '<div class="acts"><button class="btn" id="saqla"' + (x.audio.length < list.length ? " disabled" : "") + '>Bahoni saqlash</button>' +
+    h += '<div class="acts"><button class="btn" id="saqla"' + (x.audio.length < list.length && !x.natija.tugagan ? " disabled" : "") + '>Bahoni saqlash</button>' +
       '<button class="del" id="ochir">🗑 Natijani o\'chirish (qayta topshirsin)</button></div>';
     $("det").innerHTML = h;
     $("det").querySelectorAll("[data-play]").forEach(function(b){
