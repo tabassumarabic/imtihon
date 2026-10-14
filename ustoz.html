@@ -202,22 +202,31 @@ h1{font-size:28px;font-weight:900}
     var r = e.target.closest("tr.r"); if (!r) return;
     var x = natijalar[+r.getAttribute("data-i")];
     ochiqQator = ochiqQator === x.id ? null : x.id;
-    baho = (x.baholar || [null, null, null]).slice();
+    baho = (x.baholar || savollar(x).map(function(){ return null; })).slice();
     chizNat();
   });
 
+  // O'quvchiga tushgan gapirish savollari (har kimda boshqacha). Eski natijalarda — umumiy ro'yxat.
+  function savollar(x){
+    if (x.gsavollar && x.gsavollar.length) return x.gsavollar;
+    var n = Math.max(x.audio.length, (x.baholar || []).length, 3);
+    return BANK.gapirish.slice(0, n).map(function(o){ return o.variantlar[0]; });
+  }
+
   function chizDet(){
     var x = natijalar.filter(function(n){ return n.id === ochiqQator; })[0]; if (!x) return;
+    var list = savollar(x);
     var h = '<b style="font-size:18px">🗣 Gapirish — ' + esc(x.ism) + '</b>' +
-      '<div class="rubric">Har vazifaga 0–5: 5 — to\'g\'ri va ravon · 4 — kichik xatolar · 3 — tushunarli, xatolar bor · 2 — qiynalib · 1 — juda kam · 0 — javob yo\'q</div>';
-    BANK.gapirish.forEach(function(v, k){
+      '<div class="rubric">Har savolga 0–5: 5 — to\'g\'ri va ravon · 4 — kichik xatolar · 3 — tushunarli, xatolar bor · 2 — qiynalib · 1 — juda kam · 0 — javob yo\'q</div>';
+    list.forEach(function(v, k){
       var bor = x.audio.indexOf(k + 1) >= 0;
-      h += '<div class="task"><div><b>' + (k + 1) + '. ' + esc(v.vazifa) + '</b><small>' + esc(v.izoh) + '</small>' +
+      h += '<div class="task"><div><b>' + (k + 1) + '. ' + (v.rasm ? v.rasm + ' ' : '') + '<span class="ar">' + esc(v.savol) + '</span></b>' +
+        '<small>Kutilgan javob: <span class="ar">' + esc(v.kutilgan) + '</span></small>' +
         (bor ? '<div style="margin-top:6px"><button class="btn sm alt" data-play="' + (k + 1) + '">▶ Eshitish</button> <audio id="au' + (k + 1) + '" controls hidden style="width:100%;margin-top:6px"></audio></div>' : '<div><small>Ovoz yuborilmagan</small></div>') +
         '</div><div class="score" data-k="' + k + '">' + [0, 1, 2, 3, 4, 5].map(function(s){
           return '<button type="button" data-s="' + s + '"' + (baho[k] === s ? ' class="on"' : "") + '>' + s + '</button>'; }).join("") + '</div></div>';
     });
-    h += '<div class="acts"><button class="btn" id="saqla"' + (x.audio.length < 3 ? " disabled" : "") + '>Bahoni saqlash</button>' +
+    h += '<div class="acts"><button class="btn" id="saqla"' + (x.audio.length < list.length ? " disabled" : "") + '>Bahoni saqlash</button>' +
       '<button class="del" id="ochir">🗑 Natijani o\'chirish (qayta topshirsin)</button></div>';
     $("det").innerHTML = h;
     $("det").querySelectorAll("[data-play]").forEach(function(b){
@@ -238,7 +247,7 @@ h1{font-size:28px;font-weight:900}
       });
     });
     $("saqla").addEventListener("click", function(){
-      if (baho.some(function(v){ return v == null; })){ toast("3 ta vazifaning hammasiga baho qo'ying"); return; }
+      if (baho.some(function(v){ return v == null; })){ toast("Hamma savollarga baho qo'ying"); return; }
       rpc("imt_baho", { p_natija_id: x.id, p_baholar: baho }).then(function(){ toast("Saqlandi"); ochiqQator = null; return yuklaNat(); }).catch(xato);
     });
     $("ochir").addEventListener("click", function(){
