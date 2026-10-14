@@ -91,7 +91,7 @@ h1{font-size:28px;font-weight:900}
     <div class="card" style="margin-top:12px">
       <div class="head">
         <div><h1 id="o-nom"></h1><div class="meta" id="o-meta"></div></div>
-        <div class="sp"><button class="btn sm alt" id="o-yangila">↻ Yangilash</button><button class="btn sm" id="o-toggle"></button></div>
+        <div class="sp"><button class="btn sm alt" id="o-yangila">↻ Yangilash</button><button class="btn sm" id="o-toggle"></button><button class="btn sm alt" id="o-ochir" hidden>🗑 Imtihonni o'chirish</button></div>
       </div>
       <div class="bigkod" id="o-kod"></div>
       <p class="soft" style="text-align:center;font-weight:700" id="o-link"></p>
@@ -109,7 +109,7 @@ h1{font-size:28px;font-weight:900}
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
-  var token = OMBOR.get("imt_ustoz"), ses = [], joriy = null, natijalar = [], ochiqQator = null, baho = [null, null, null];
+  var token = OMBOR.get("imt_ustoz"), rol = null, ses = [], joriy = null, natijalar = [], ochiqQator = null, baho = [null, null, null];
   var ICON = ["🎧", "📖", "✍️", "🗣"], KEY = ["tinglash", "oqish", "yozish", "gapirish"];
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return "&#" + c.charCodeAt(0) + ";"; }); }
   function toast(t){ var e = $("toast"); e.textContent = t; e.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function(){ e.hidden = true; }, 3000); }
@@ -168,7 +168,16 @@ h1{font-size:28px;font-weight:900}
     $("o-link").textContent = "Sayt: " + talabaLink();
     $("o-toggle").textContent = joriy.ochiq ? "🔒 Imtihonni yopish" : "🟢 Qayta ochish";
     $("o-toggle").className = "btn sm" + (joriy.ochiq ? "" : " alt");
+    $("o-ochir").hidden = rol !== "direktor" || joriy.ochiq;
   }
+  // Faqat direktor: yopilgan imtihonni natijalari bilan butunlay o'chirish
+  $("o-ochir").addEventListener("click", function(){
+    if (!confirm("«" + joriy.nom + "» imtihoni va undagi BARCHA natijalar butunlay o'chirilsinmi? Buni qaytarib bo'lmaydi.")) return;
+    rpc("imt_sessiya_ochir", { p_id: joriy.id }).then(function(d){
+      if (d && d.xato === "ochiq"){ toast("Avval imtihonni yoping"); return; }
+      toast("Imtihon o'chirildi"); kor("s-list"); return yuklaSes();
+    }).catch(xato);
+  });
   $("o-toggle").addEventListener("click", function(){
     var yangi = !joriy.ochiq;
     if (!yangi && !confirm("Imtihon yopilsinmi? Hali tugatmaganlar davom eta olmaydi.")) return;
@@ -260,7 +269,7 @@ h1{font-size:28px;font-weight:900}
   function boshla(){
     return rpc("men").then(function(m){
       if (!m || m.rol === "oquvchi"){ OMBOR.set("imt_ustoz", null); token = null; kor("s-login"); return; }
-      $("me-ism").textContent = m.ism; kor("s-list"); return yuklaSes();
+      rol = m.rol; $("me-ism").textContent = m.ism; kor("s-list"); return yuklaSes();
     }).catch(xato);
   }
   if (token) boshla(); else kor("s-login");
