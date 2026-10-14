@@ -64,7 +64,7 @@ h1{font-size:28px;font-weight:900}
   </div>
 
   <!-- Kirish -->
-  <form class="card" id="s-login" novalidate hidden style="max-width:420px;margin:30px auto">
+  <form class="card" id="s-login" novalidate onsubmit="return false" hidden style="max-width:420px;margin:30px auto">
     <h2 style="font-weight:900;font-size:24px">Ustoz kirishi</h2>
     <label for="login">Login</label>
     <input id="login" autocomplete="username" autocapitalize="off" placeholder="Tabassum_arabic">
@@ -77,7 +77,7 @@ h1{font-size:28px;font-weight:900}
   <!-- Imtihonlar ro'yxati -->
   <div id="s-list" hidden>
     <h1>Imtihonlar</h1>
-    <form class="card" id="yangi" style="margin-top:14px" novalidate>
+    <form class="card" id="yangi" style="margin-top:14px" novalidate onsubmit="return false">
       <b>➕ Yangi A0 imtihoni ochish</b>
       <div class="yangi"><input id="y-nom" maxlength="60" placeholder="Guruh nomi, masalan: A0 · 1-guruh"><button class="btn" type="submit">Ochish</button></div>
       <div class="err" id="y-err"></div>
