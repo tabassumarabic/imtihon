@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabassum — kitob imtihonlari (ustoz)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="uslub.css?v=5c5724e5">
+<style>
+.wrap{max-width:1000px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.top .sp{margin-left:auto;display:flex;gap:10px;align-items:center;font-weight:800;color:var(--soft);font-size:14px}
+h1{font-size:28px;font-weight:900}
+.head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.head .sp{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.yangi{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-top:12px}
+.sess{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:18px}
+.ses{display:flex;flex-direction:column;gap:10px;cursor:pointer}
+.ses h3{font-size:19px;font-weight:900}
+.ses .kn{font-weight:800;color:var(--soft);font-size:14px}
+.kod{font-size:34px;font-weight:900;letter-spacing:.2em;background:var(--sand);border-radius:14px;text-align:center;padding:6px 0 6px .2em}
+.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-weight:800;font-size:14px;color:var(--soft)}
+.chip{font-size:12px;font-weight:900;padding:5px 12px;border-radius:99px;white-space:nowrap;background:var(--sand);color:var(--ink)}
+.chip.ochiq{background:#DDE3C0;color:#3F6B24}
+.chip.yopiq{background:#E8D6B4}
+.chip.otdi{background:var(--green);color:#fff}
+.chip.yiqildi{background:var(--red);color:#fff}
+.bigkod{text-align:center;margin:8px 0 4px}
+.bigkod b{display:block;font-size:64px;letter-spacing:.25em;font-weight:900;line-height:1.1}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{text-align:left;font-size:13px;color:var(--soft);font-weight:800;padding:8px 6px;border-bottom:2px solid var(--line)}
+.tbl td{padding:10px 6px;border-bottom:1px solid var(--line);font-weight:800}
+.tbl td.p{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl tr.r{cursor:pointer}
+.tbl tr.r:hover td{background:rgba(255,255,255,.5)}
+.lo{color:var(--red)}
+.mid{color:#9A6408}
+.hi{color:#3F6B24}
+.det td{background:#fff;padding:16px}
+.ans{margin:8px 0 14px}
+.ans h4{font-weight:900;font-size:16px;margin:10px 0 4px}
+.ans div{display:grid;grid-template-columns:24px 1fr;gap:6px;padding:6px 0;border-bottom:1px dashed var(--line);font-weight:700;font-size:14px}
+.ans small{display:block;color:var(--soft)}
+.ans .ar{font-size:16px}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.del{border:0;background:none;font:inherit;font-weight:800;color:var(--red);cursor:pointer;padding:6px}
+.scroll{overflow-x:auto}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:14px;font-weight:800;z-index:50;max-width:calc(100vw - 32px)}
+@media(max-width:640px){.yangi{grid-template-columns:1fr}.bigkod b{font-size:48px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><span class="seal"><svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><circle cx="12" cy="9" r="1.9" fill="#fff" stroke="none"/><circle cx="20" cy="9" r="1.9" fill="#fff" stroke="none"/><path d="M6 15c0 7 4.5 10 10 10s10-3 10-10"/></svg></span>Tabassum · kitob imtihonlari</div>
+    <div class="sp" id="me" hidden><span id="me-ism"></span> · <a href="#" id="chiq">Chiqish</a></div>
+  </div>
+
+  <!-- Kirish -->
+  <form class="card" id="s-login" novalidate onsubmit="return false" hidden style="max-width:420px;margin:30px auto">
+    <h2 style="font-weight:900;font-size:24px">Ustoz kirishi</h2>
+    <label for="login">Login</label>
+    <input id="login" autocomplete="username" autocapitalize="off" placeholder="Tabassum_arabic">
+    <label for="pin">Parol (4 ta raqam)</label>
+    <input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" style="text-align:center;letter-spacing:.5em;font-size:24px">
+    <div class="err" id="l-err"></div>
+    <button class="btn wide" type="submit">Kirish</button>
+  </form>
+
+  <!-- Imtihonlar ro'yxati -->
+  <div id="s-list" hidden>
+    <h1>Kitob imtihonlari</h1>
+    <form class="card" id="yangi" style="margin-top:14px" novalidate onsubmit="return false">
+      <b>➕ Yangi imtihon ochish</b>
+      <div class="yangi">
+        <select id="y-kitob" aria-label="Kitob"></select>
+        <input id="y-nom" maxlength="60" placeholder="Guruh nomi, masalan: A0 · 1-guruh" aria-label="Guruh nomi">
+        <button class="btn" type="submit">Ochish</button>
+      </div>
+      <div class="err" id="y-err"></div>
+    </form>
+    <div class="sess" id="sess"></div>
+  </div>
+
+  <!-- Bitta imtihon natijalari -->
+  <div id="s-one" hidden>
+    <p><a href="#" id="orqaga" style="font-weight:800">← Barcha imtihonlar</a></p>
+    <div class="card" style="margin-top:12px">
+      <div class="head">
+        <div><h1 id="o-nom"></h1><div class="meta" id="o-meta"></div></div>
+        <div class="sp"><button class="btn sm alt" id="o-yangila">↻ Yangilash</button><button class="btn sm" id="o-toggle"></button><button class="btn sm alt" id="o-ochir" hidden>🗑 Imtihonni o'chirish</button></div>
+      </div>
+      <div class="bigkod" id="o-kod"></div>
+      <p class="soft" style="text-align:center;font-weight:700" id="o-link"></p>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="head"><h3 style="font-weight:900;font-size:20px">Natijalar</h3><div class="sp soft" style="font-weight:800;font-size:14px">O'tish: umumiy ≥ 70% va har qism ≥ 50% · qatorni bosing — javoblar ochiladi</div></div>
+      <div class="scroll"><table class="tbl" id="tbl"></table></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="ombor.js?v=358fe828"></script>
+<script src="bank.js?v=0e0d0c23"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var token = OMBOR.get("imt_ustoz"), rol = null, ses = [], joriy = null, natijalar = [], ochiqQator = null;
+  var ICON = ["📖", "✍️"], KEY = ["oqish", "yozish"], NOM = { oqish: "📖 O'qish", yozish: "✍️ Yozish" };
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return "&#" + c.charCodeAt(0) + ";"; }); }
+  function toast(t){ var e = $("toast"); e.textContent = t; e.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function(){ e.hidden = true; }, 3000); }
+  function rpc(n, a){ a = a || {}; a.p_token = token; return OMBOR.rpc(n, a); }
+  function xato(ex){
+    if (/kirish_kerak|ruxsat_yoq/.test(ex && ex.message)){ OMBOR.set("imt_ustoz", null); token = null; kor("s-login"); return; }
+    toast("Ombor bilan bog'lanib bo'lmadi");
+  }
+  function kor(id){ ["s-login", "s-list", "s-one"].forEach(function(s){ $(s).hidden = s !== id; }); $("me").hidden = id === "s-login"; window.scrollTo(0, 0); }
+  function cls(p){ return p == null ? "" : p >= 70 ? "hi" : p >= 50 ? "mid" : "lo"; }
+  function talabaLink(){ return location.href.replace(/ustoz\.html.*$/, ""); }
+  function kitobNom(k){ var b = window.KITOBLAR[k]; return b ? b.nom + " · " + b.ar : k; }
+
+  $("y-kitob").innerHTML = Object.keys(window.KITOBLAR).map(function(k){ return '<option value="' + k + '">' + esc(kitobNom(k)) + '</option>'; }).join("");
+
+  // ---------- kirish ----------
+  $("pin").addEventListener("input", function(){ this.value = this.value.replace(/\D/g, "").slice(0, 4); });
+  $("s-login").addEventListener("submit", function(e){
+    e.preventDefault();
+    OMBOR.rpc("login", { p_login: $("login").value.trim(), p_pin: $("pin").value }).then(function(d){
+      if (d.token){
+        if (d.rol === "oquvchi" || d.rol === "hisobchi"){ $("l-err").textContent = "Bu sahifa faqat ustozlar uchun"; return; }
+        token = d.token; OMBOR.set("imt_ustoz", token); return boshla();
+      }
+      $("l-err").textContent = d.xato === "blok" ? "Ko'p xato. 15 daqiqadan keyin urinib ko'ring" : d.xato === "login" ? "Login noto'g'ri" : "Parol noto'g'ri";
+      $("pin").value = "";
+    }).catch(function(){ $("l-err").textContent = "Internet bilan bog'lanib bo'lmadi"; });
+  });
+  $("chiq").addEventListener("click", function(e){ e.preventDefault(); rpc("chiqish").catch(function(){}); OMBOR.set("imt_ustoz", null); token = null; kor("s-login"); });
+
+  // ---------- ro'yxat ----------
+  function yuklaSes(){ return rpc("kimt_sessiyalar").then(function(d){ ses = d || []; chizSes(); }); }
+  function chizSes(){
+    $("sess").innerHTML = ses.length ? ses.map(function(s, i){
+      return '<div class="card ses" data-i="' + i + '"><h3>' + esc(s.nom) + '</h3><div class="kn">📚 ' + esc(kitobNom(s.kitob)) + '</div><div class="kod">' + s.kod + '</div>' +
+        '<div class="meta"><span class="chip ' + (s.ochiq ? "ochiq" : "yopiq") + '">' + (s.ochiq ? "🟢 Ochiq" : "🔒 Yopiq") + '</span>' +
+        '<span>👥 ' + s.soni + ' kishi · ✅ ' + s.tugatgan + ' tugatgan</span><span>' + s.sana + '</span></div></div>';
+    }).join("") : '<div class="card"><p class="soft" style="font-weight:700">Hali imtihon ochilmagan. Yuqorida kitob va guruh nomini tanlab, «Ochish»ni bosing.</p></div>';
+  }
+  $("sess").addEventListener("click", function(e){ var c = e.target.closest(".ses"); if (c) ochish(ses[+c.getAttribute("data-i")].id); });
+  $("yangi").addEventListener("submit", function(e){
+    e.preventDefault();
+    var nom = $("y-nom").value.trim();
+    if (!nom){ $("y-err").textContent = "Guruh nomini yozing"; return; }
+    $("y-err").textContent = "";
+    rpc("kimt_sessiya_och", { p_nom: nom, p_kitob: $("y-kitob").value }).then(function(d){
+      if (d.xato){ $("y-err").textContent = "Ochib bo'lmadi"; return; }
+      $("y-nom").value = ""; return yuklaSes().then(function(){ ochish(d.id); });
+    }).catch(xato);
+  });
+
+  // ---------- bitta imtihon ----------
+  function ochish(id){
+    joriy = ses.filter(function(s){ return s.id === id; })[0]; ochiqQator = null;
+    chizBosh(); kor("s-one"); yuklaNat();
+  }
+  function chizBosh(){
+    $("o-nom").textContent = joriy.nom;
+    $("o-meta").innerHTML = '<span class="chip ' + (joriy.ochiq ? "ochiq" : "yopiq") + '">' + (joriy.ochiq ? "🟢 Ochiq — o'quvchilar kira oladi" : "🔒 Yopiq — hech kim kira olmaydi") + '</span><span>📚 ' + esc(kitobNom(joriy.kitob)) + '</span><span>' + joriy.sana + '</span>';
+    $("o-kod").innerHTML = '<span class="soft" style="font-weight:800">O\'quvchilarga shu kodni ayting:</span><b>' + joriy.kod + '</b>';
+    $("o-link").textContent = "Sayt: " + talabaLink();
+    $("o-toggle").textContent = joriy.ochiq ? "🔒 Imtihonni yopish" : "🟢 Qayta ochish";
+    $("o-toggle").className = "btn sm" + (joriy.ochiq ? "" : " alt");
+    $("o-ochir").hidden = rol !== "direktor" || joriy.ochiq;
+  }
+  $("o-ochir").addEventListener("click", function(){
+    if (!confirm("«" + joriy.nom + "» imtihoni va undagi BARCHA natijalar butunlay o'chirilsinmi? Buni qaytarib bo'lmaydi.")) return;
+    rpc("kimt_sessiya_ochir", { p_id: joriy.id }).then(function(d){
+      if (d && d.xato === "ochiq"){ toast("Avval imtihonni yoping"); return; }
+      toast("Imtihon o'chirildi"); kor("s-list"); return yuklaSes();
+    }).catch(xato);
+  });
+  $("o-toggle").addEventListener("click", function(){
+    var yangi = !joriy.ochiq;
+    if (!yangi && !confirm("Imtihon yopilsinmi? Hali tugatmaganlar davom eta olmaydi.")) return;
+    rpc("kimt_sessiya_ochiq", { p_id: joriy.id, p_ochiq: yangi }).then(function(){ joriy.ochiq = yangi; chizBosh(); yuklaSes(); }).catch(xato);
+  });
+  $("orqaga").addEventListener("click", function(e){ e.preventDefault(); kor("s-list"); yuklaSes().catch(xato); });
+  $("o-yangila").addEventListener("click", function(){ yuklaNat(); });
+
+  function yuklaNat(){ return rpc("kimt_natijalar", { p_sessiya_id: joriy.id }).then(function(d){ natijalar = d || []; chizNat(); }).catch(xato); }
+  function holatChip(x){
+    var n = x.natija;
+    if (n.xulosa === "otdi") return '<span class="chip otdi">✅ O\'tdi</span>';
+    if (n.xulosa === "yiqildi") return '<span class="chip yiqildi">❌ Yiqildi</span>';
+    return '<span class="chip">✍️ Topshiryapti</span>';
+  }
+  function chizNat(){
+    if (!natijalar.length){ $("tbl").innerHTML = '<tr><td class="soft">Hali hech kim kirmagan. O\'quvchilar saytga kirib, kodni yozishlari kerak.</td></tr>'; return; }
+    var h = '<tr><th>Ism</th>' + ICON.map(function(i){ return '<th>' + i + '</th>'; }).join("") + '<th>Umumiy</th><th>Holat</th><th>Vaqt</th></tr>';
+    natijalar.forEach(function(x, i){
+      var n = x.natija;
+      h += '<tr class="r" data-i="' + i + '"><td>' + esc(x.ism) + '</td>' + KEY.map(function(k){ var p = n[k];
+        return '<td class="p ' + cls(p) + '">' + (p == null ? "–" : p + "%") + '</td>'; }).join("") +
+        '<td class="p ' + cls(n.umumiy) + '">' + (n.umumiy == null ? "–" : n.umumiy + "%") + '</td><td>' + holatChip(x) + '</td><td class="p soft">' + esc(x.vaqt) + '</td></tr>';
+      if (ochiqQator === x.id) h += '<tr class="det"><td colspan="6" id="det"></td></tr>';
+    });
+    $("tbl").innerHTML = h;
+    if (ochiqQator) chizDet();
+  }
+  $("tbl").addEventListener("click", function(e){
+    var r = e.target.closest("tr.r"); if (!r) return;
+    var x = natijalar[+r.getAttribute("data-i")];
+    ochiqQator = ochiqQator === x.id ? null : x.id;
+    chizNat();
+  });
+
+  // Arabcha bo'lsa arab shriftida (alohida yo'nalishda), aks holda oddiy matn. ha/yoq — to'g'ri/noto'g'ri savollari
+  function yoz(x){
+    var tf = { ha: "To'g'ri", yoq: "Noto'g'ri" };
+    if (tf[x]) return '<b>' + tf[x] + '</b>';
+    return /[؀-ۿ]/.test(x) ? '<span class="ar">' + esc(x) + '</span>' : '<b>' + esc(x) + '</b>';
+  }
+
+  // O'quvchining har bir javobi: ✓ / ✗, xato bo'lsa to'g'ri javob ham
+  function chizDet(){
+    var x = natijalar.filter(function(n){ return n.id === ochiqQator; })[0]; if (!x) return;
+    var j = x.javoblar || {};
+    var h = '<b style="font-size:18px">' + esc(x.ism) + ' — javoblari</b>';
+    KEY.forEach(function(k){
+      var list = j[k];
+      h += '<div class="ans"><h4>' + NOM[k] + '</h4>';
+      if (!list) h += '<p class="soft">Hali topshirilmagan</p>';
+      else if (!list.length) h += '<p class="soft">⏱ Vaqt tugab, bu qismga javob berilmagan (0%)</p>';
+      else list.forEach(function(a, i){
+        h += '<div><span>' + (a.ok ? "✅" : "❌") + '</span><span>' + (i + 1) + '. ' + esc(a.s) +
+          (a.a ? ' · ' + yoz(a.a) : '') + (a.u ? ' <small style="display:inline">(' + esc(a.u) + ')</small>' : '') +
+          '<small>Javobi: ' + yoz(a.j) + (a.ok ? "" : ' · To\'g\'risi: ' + yoz(a.t)) + '</small></span></div>';
+      });
+      h += '</div>';
+    });
+    h += '<div class="acts"><button class="del" id="ochir">🗑 Natijani o\'chirish (qayta topshirsin)</button></div>';
+    $("det").innerHTML = h;
+    $("ochir").addEventListener("click", function(){
+      if (!confirm(x.ism + " natijasi o'chirilsinmi? U imtihonni boshidan topshira oladi.")) return;
+      rpc("kimt_natija_ochir", { p_natija_id: x.id }).then(function(){ ochiqQator = null; toast("O'chirildi"); return yuklaNat(); }).catch(xato);
+    });
+  }
+
+  // ---------- boshlash ----------
+  function boshla(){
+    return rpc("men").then(function(m){
+      if (!m || m.rol === "oquvchi"){ OMBOR.set("imt_ustoz", null); token = null; kor("s-login"); return; }
+      rol = m.rol; $("me-ism").textContent = m.ism; kor("s-list"); return yuklaSes();
+    }).catch(xato);
+  }
+  if (token) boshla(); else kor("s-login");
+})();
+</script>
+</body>
+</html>
