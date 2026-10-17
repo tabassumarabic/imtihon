@@ -12,7 +12,7 @@
 .top .who{margin-left:auto;text-align:right;font-weight:800;font-size:14px;color:var(--soft)}
 
 /* bo'limlar qatori */
-.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
 .st{background:var(--sand);border-radius:14px;padding:8px 6px;text-align:center;font-weight:800;font-size:13px;color:var(--soft)}
 .st i{display:block;font-style:normal;font-size:20px}
 .st.on{background:var(--brand);color:#fff;box-shadow:0 3px 0 var(--brand-d)}
@@ -33,6 +33,9 @@
 .q-ar{font-size:30px;text-align:center;margin:6px 0 4px;line-height:1.7}
 .q-uz{text-align:center;color:var(--soft);font-weight:700;margin:0 0 18px}
 .q-pic{text-align:center;font-size:52px;line-height:1.1;margin:4px 0}
+.play{display:flex;align-items:center;justify-content:center;margin:4px auto 18px;width:110px;height:110px;border-radius:50%;border:0;background:var(--brand);color:#fff;font-size:42px;cursor:pointer;box-shadow:0 6px 0 var(--brand-d)}
+.play:disabled{opacity:.45}
+.play-n{text-align:center;color:var(--soft);font-weight:800;font-size:14px;margin:-8px 0 16px}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .opt{border:3px solid var(--line);background:#fff;border-radius:18px;padding:16px 10px;font:inherit;font-weight:800;color:var(--ink);cursor:pointer;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center}
 .opt .ar{font-size:24px;line-height:1.6}
@@ -50,6 +53,18 @@
 .undo{margin-top:12px;text-align:center}
 .next{margin-top:20px}
 
+/* gapirish */
+.rec{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:16px}
+.mic{width:110px;height:110px;border-radius:50%;border:0;background:var(--brand);color:#fff;font-size:44px;cursor:pointer;box-shadow:0 6px 0 var(--brand-d)}
+.mic.on{background:var(--red);animation:pulse 1.2s infinite}
+.timer{font-weight:900;font-size:18px;text-align:center}
+.recbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+audio{width:100%}
+.talxis{background:var(--sand);border-radius:16px;padding:14px;margin:10px 0 4px}
+.talxis .ar{font-size:26px;text-align:center;display:block}
+.talxis p{text-align:center;font-weight:800;margin-top:4px}
+.maslahat{font-size:14px;color:var(--soft);font-weight:700;margin-top:8px}
+
 /* natija */
 .res-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
 .res-row:first-of-type{border-top:0}
@@ -63,6 +78,7 @@
 .verdict h2{font-size:28px;font-weight:900;margin-top:8px}
 .verdict.ok{background:var(--green);box-shadow:0 6px 0 #3F6B24}
 .verdict.no{background:var(--red);box-shadow:0 6px 0 #7d1a15}
+.verdict.wait{background:var(--gold);box-shadow:0 6px 0 #A67900}
 .rules{font-size:14px;color:var(--soft);font-weight:700;margin-top:14px}
 .intro-row{display:flex;gap:14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
 .intro-row:first-of-type{border-top:0}
@@ -101,10 +117,12 @@
   <div class="card" id="s-intro" hidden>
     <h2 style="font-size:24px;font-weight:900" id="intro-h"></h2>
     <div class="kitob"><i>📚</i><div><b id="intro-kitob"></b><span class="ar" id="intro-ar"></span></div></div>
-    <p class="soft" style="margin:6px 0 10px">Imtihon shu kitob bo'yicha, 2 qismdan iborat:</p>
+    <p class="soft" style="margin:6px 0 10px">Imtihon shu kitob bo'yicha, 4 qismdan iborat. Har qismni ketma-ket topshirasiz.</p>
+    <div class="intro-row"><i>🎧</i><div><b>Tinglash · 10 savol</b><span>Hikoyadan parcha, so'z va gaplarni eshiting (har savolda 3 marta) va javobni tanlang</span></div></div>
     <div class="intro-row"><i>📖</i><div><b>O'qish · 10 savol</b><span>Hikoyadan parchani o'qing va savollarga javob bering</span></div></div>
     <div class="intro-row"><i>✍️</i><div><b>Yozish · 10 savol</b><span>Harflardan so'z, so'zlardan gap tuzing, bo'sh joyni to'ldiring</span></div></div>
-    <p class="rules">⏱ Ikkala qismga <b>jami 25 daqiqa</b>. Vaqt tugasa, javob berilmagan savollar xato hisoblanadi.<br>✅ O'tish uchun: umumiy ball kamida <b>70%</b> va har bir qismdan kamida <b>50%</b>.</p>
+    <div class="intro-row"><i>🗣</i><div><b>Gapirish · 3 vazifa</b><span>Hikoyani qisqacha aytib bering va 2 ta savolga ovoz bilan javob bering. Ustoz baholaydi</span></div></div>
+    <p class="rules">⏱ Tinglash, O'qish va Yozishga <b>jami 30 daqiqa</b>, Gapirishga <b>10 daqiqa</b>. Vaqt tugasa, javob berilmagan savollar xato hisoblanadi.<br>✅ O'tish uchun: umumiy ball kamida <b>70%</b> va har bir qismdan kamida <b>50%</b>.<br>🎧 Quloqchin taqing, tinch joyda topshiring.</p>
     <button class="btn wide" id="intro-go" style="margin-top:18px">Boshladik!</button>
   </div>
 
@@ -116,13 +134,20 @@
     <div class="card" id="q"></div>
   </div>
 
-  <!-- 4. Natija -->
+  <!-- 4. Gapirish -->
+  <div id="s-gap" hidden>
+    <div class="steps" id="steps2"></div>
+    <div class="card" id="g"></div>
+  </div>
+
+  <!-- 5. Natija -->
   <div id="s-natija" hidden>
     <div class="verdict" id="verdict"></div>
     <div class="card">
       <h3 style="font-size:20px;font-weight:900;margin-bottom:8px">Natijalaringiz</h3>
       <div id="res"></div>
       <p class="rules">O'tish uchun: umumiy kamida 70% va har bir qismdan kamida 50%.</p>
+      <button class="btn alt wide" id="res-refresh" style="margin-top:16px">↻ Natijani yangilash</button>
       <p style="text-align:center;margin-top:14px"><a href="#" id="boshqa" class="soft" style="font-weight:800">Boshqa o'quvchi topshiradimi? Shu yerni bosing</a></p>
     </div>
   </div>
@@ -136,12 +161,15 @@
 </svg>
 
 <script src="ombor.js?v=358fe828"></script>
-<script src="bank.js?v=0e0d0c23"></script>
+<script src="bank.js?v=5dc37599"></script>
+<script src="ovoz.js?v=f8a283b7"></script>
 <script>
 (function(){
   var BOLIMLAR = [
-    { k: "oqish",  ic: "📖", nom: "O'qish" },
-    { k: "yozish", ic: "✍️", nom: "Yozish" }
+    { k: "tinglash", ic: "🎧", nom: "Tinglash" },
+    { k: "oqish",    ic: "📖", nom: "O'qish" },
+    { k: "yozish",   ic: "✍️", nom: "Yozish" },
+    { k: "gapirish", ic: "🗣", nom: "Gapirish" }
   ];
   var $ = function(id){ return document.getElementById(id); };
   var kalit = OMBOR.get("kimt_kalit"), holat = null, B = null;
@@ -151,20 +179,36 @@
   function olish(pool, n){ return shuffle(pool).slice(0, n); }
   function boshqa(pool, togri, n){ return shuffle(pool.filter(function(x){ return x !== togri; })).slice(0, n); }
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return "&#" + c.charCodeAt(0) + ";"; }); }
-  function ekran(id){ ["s-kirish","s-intro","s-savol","s-natija","s-xato"].forEach(function(s){ $(s).hidden = s !== id; }); window.scrollTo(0, 0); }
+  function ekran(id){ ["s-kirish","s-intro","s-savol","s-gap","s-natija","s-xato"].forEach(function(s){ $(s).hidden = s !== id; }); window.scrollTo(0, 0); }
   function xatoEkran(h, p){ $("xato-h").textContent = h; $("xato-p").textContent = p; ekran("s-xato"); }
   function kitob(){ B = (holat && window.KITOBLAR[holat.kitob]) || null; return B; }
 
+  // Tinglashda ishlatilgan parchalar o'qishda qaytarilmasin (sahifa yangilansa ham eslab qolinadi)
+  function tParchalar(v){ var k = "kimt_tp_" + kalit; if (v) OMBOR.set(k, v.join(",")); return (OMBOR.get(k) || "").split(",").filter(Boolean); }
+
   // ---------- savollar yasash ----------
-  // har savol: { tur, matn (uz), matnAr, parcha?, ar?, uz?, pic?, boxes?, opts:[{html, v}], togri, tiles?, soz?, alt? }
+  // har savol: { tur, matn (uz), matnAr, audio?, parcha?, ar?, uz?, pic?, boxes?, opts:[{html, v}], togri, tiles?, soz?, alt? }
   function opt(html, v){ return { html: html, v: v }; }
   function arOpt(x, big){ return opt('<span class="ar' + (big ? " big" : "") + '">' + esc(x) + '</span>', x); }
+  var TF_OPTS = function(){ return [opt("✅ To'g'ri · <span class=\"ar\">صَحِيحٌ</span>", "ha"), opt("❌ Noto'g'ri · <span class=\"ar\">خَطَأٌ</span>", "yoq")]; };
 
   var Y = {
+    // TINGLASH
+    t_parcha: function(p){
+      var tf = B.oqish.tf.filter(function(t){ return t[0] === p; }), mc = B.oqish.mc.filter(function(m){ return m[0] === p; });
+      if (mc.length && (!tf.length || Math.random() < 0.5)){ var m = olish(mc, 1)[0];
+        return { tur: "Parchani tinglang", matn: "Tinglang va savolga javob bering", matnAr: "اسْتَمِعْ وَأَجِبْ", audio: B.parchalar[p],
+          ar: m[1], uz: m[2], togri: m[3], bir: true, opts: shuffle([m[3]].concat(m[4])).map(function(x){ return arOpt(x); }) }; }
+      var t = olish(tf, 1)[0];
+      return { tur: "Parchani tinglang", matn: "Tinglang: gap to'g'rimi yoki noto'g'ri?", matnAr: "اسْتَمِعْ: صَحِيحٌ أَمْ خَطَأٌ؟", audio: B.parchalar[p],
+        ar: t[1], uz: t[2], togri: t[3] ? "ha" : "yoq", opts: TF_OPTS() }; },
+    t_soz: function(s){ return { tur: "Tinglang", matn: "Qaysi so'z aytildi? Ma'nosini tanlang", matnAr: "مَا مَعْنَى الْكَلِمَةِ؟", audio: s[0], togri: s[1],
+      opts: shuffle([s[1]].concat(boshqa(B.oqish.soz.map(function(x){ return x[1]; }), s[1], 3))).map(function(x){ return opt(esc(x), x); }) }; },
+    t_gap: function(g){ return { tur: "Tinglang", matn: "Qaysi gapni eshitdingiz?", matnAr: "أَيَّ جُمْلَةٍ سَمِعْتَ؟", audio: g[0], togri: g[0], bir: true,
+      opts: shuffle(g).map(function(x){ return arOpt(x); }) }; },
     // O'QISH
     o_tf: function(t){ return { tur: "Parchani o'qing", matn: "Gap to'g'rimi yoki noto'g'ri?", matnAr: "صَحِيحٌ أَمْ خَطَأٌ؟",
-      parcha: B.parchalar[t[0]], ar: t[1], uz: t[2], togri: t[3] ? "ha" : "yoq",
-      opts: [opt("✅ To'g'ri · <span class=\"ar\">صَحِيحٌ</span>", "ha"), opt("❌ Noto'g'ri · <span class=\"ar\">خَطَأٌ</span>", "yoq")] }; },
+      parcha: B.parchalar[t[0]], ar: t[1], uz: t[2], togri: t[3] ? "ha" : "yoq", opts: TF_OPTS() }; },
     o_mc: function(m){ return { tur: "Parchani o'qing", matn: "Savolga to'g'ri javobni tanlang", matnAr: "اخْتَرِ الْجَوَابَ الصَّحِيحَ",
       parcha: B.parchalar[m[0]], ar: m[1], uz: m[2], togri: m[3], bir: true,
       opts: shuffle([m[3]].concat(m[4])).map(function(x){ return arOpt(x); }) }; },
@@ -192,13 +236,20 @@
         opts: shuffle(Array.from(t[3])).map(function(x){ return arOpt(x, true); }) }; }
   };
 
-  // Har turdan tasodifiy: O'qish 4+3+2+1, Yozish 3+3+2+1+1. To'g'ri/noto'g'ri savollari turli parchalardan.
+  // Tinglash 3 parcha + 4 so'z + 3 gap; O'qish 4 to'g'ri/noto'g'ri + 3 savol + 2 «kim aytdi» + 1 so'z; Yozish 3+3+2+1+1
   function tuz(bolim){
-    var O = B.oqish, W = B.yozish;
+    var O = B.oqish, W = B.yozish, parchalar = Object.keys(B.parchalar);
+    if (bolim === "tinglash"){
+      var tp = olish(parchalar, 3); tParchalar(tp);
+      return [].concat(tp.map(Y.t_parcha), olish(O.soz, 4).map(Y.t_soz), olish(B.tinglash.gaplar, 3).map(Y.t_gap));
+    }
     if (bolim === "oqish"){
+      var band = tParchalar(), qolgan = function(x){ return band.indexOf(x[0]) < 0; };
       var tf = [], ishlatilgan = {};
-      shuffle(O.tf).forEach(function(t){ if (tf.length < 4 && !ishlatilgan[t[0]]){ ishlatilgan[t[0]] = 1; tf.push(t); } });
-      return [].concat(tf.map(Y.o_tf), olish(O.mc, 3).map(Y.o_mc), olish(O.kim, 2).map(Y.o_kim), olish(O.soz, 1).map(Y.o_soz));
+      [shuffle(O.tf.filter(qolgan)), shuffle(O.tf)].forEach(function(pool){
+        pool.forEach(function(t){ if (tf.length < 4 && !ishlatilgan[t[0]]){ ishlatilgan[t[0]] = 1; tf.push(t); } }); });
+      var mc = olish(O.mc.filter(qolgan), 3); if (mc.length < 3) mc = mc.concat(olish(O.mc.filter(function(m){ return mc.indexOf(m) < 0; }), 3 - mc.length));
+      return [].concat(tf.map(Y.o_tf), mc.map(Y.o_mc), olish(O.kim, 2).map(Y.o_kim), olish(O.soz, 1).map(Y.o_soz));
     }
     return [].concat(olish(W.harf, 3).map(Y.y_harf), olish(W.gap, 3).map(Y.y_gap), olish(W.boshjoy, 2).map(Y.y_boshjoy),
       olish(W.imlo, 1).map(Y.y_imlo), olish(W.tushgan, 1).map(Y.y_tushgan));
@@ -208,14 +259,16 @@
   function natija(){ return (holat && holat.natija) || {}; }
   function keyingiBolim(){
     var n = natija();
+    if (n.tinglash == null) return "tinglash";
     if (n.oqish == null) return "oqish";
     if (n.yozish == null) return "yozish";
+    if (!n.tugagan) return "gapirish";
     return null;
   }
   function stepsHtml(joriy){
     var n = natija();
     return BOLIMLAR.map(function(b){
-      var done = n[b.k] != null;
+      var done = b.k === "gapirish" ? n.tugagan : n[b.k] != null;
       return '<div class="st' + (b.k === joriy ? " on" : done ? " done" : "") + '"><i>' + (done && b.k !== joriy ? "✓" : b.ic) + '</i>' + b.nom + '</div>';
     }).join("");
   }
@@ -225,9 +278,10 @@
     if (!holat){ OMBOR.set("kimt_kalit", null); kalit = null; ekran("s-kirish"); return; }
     $("who").textContent = holat.ism + " · " + holat.nom;
     var b = keyingiBolim();
-    if (!b || natija().tugagan) return natijaEkran();
+    if (!b) return natijaEkran();
     if (!holat.ochiq) return xatoEkran("Imtihon yopilgan", "Ustozingiz imtihonni yopgan. Savol bo'lsa, ustozga murojaat qiling.");
-    if (!B) return xatoEkran("Sahifa eskirgan", "Sahifani yangilang. Takrorlansa, ustozga ayting.");
+    if (!B || !B.tinglash) return xatoEkran("Sahifa eskirgan", "Sahifani yangilang. Takrorlansa, boshqa brauzerda (Chrome) oching.");
+    if (b === "gapirish") return gapirishBoshla();
     savolBoshla(b);
   }
 
@@ -246,7 +300,7 @@
       if (d.xato){ err.textContent = X[d.xato] || "Xatolik"; return; }
       kalit = d.kalit; OMBOR.set("kimt_kalit", kalit);
       return yangila().then(function(){
-        if (keyingiBolim() === "oqish" && B){
+        if (keyingiBolim() === "tinglash" && B){
           $("intro-h").textContent = "Assalomu alaykum, " + d.ism.split(" ")[0] + "!";
           $("intro-kitob").textContent = B.nom; $("intro-ar").textContent = B.ar;
           $("who").textContent = d.ism + " · " + d.nom; ekran("s-intro");
@@ -257,30 +311,32 @@
   $("intro-go").addEventListener("click", davom);
 
   // ---------- 2. savollar ----------
-  var S = null; // { bolim, savollar, i, javoblar, tanlov, qurilgan }
+  var S = null; // { bolim, savollar, i, javoblar, tanlov, qurilgan, plays }
+  var player = new Audio();
+  function ijro(matn){ var f = window.OVOZ[matn]; if (!f) return; player.src = f; player.currentTime = 0; player.play().catch(function(){}); }
 
   // ---------- soat (ombor soati bo'yicha) ----------
   var SOAT = { t: null };
-  function soatBoshla(){
-    return OMBOR.rpc("kimt_vaqt", { p_kalit: kalit }).then(function(d){
+  function soatBoshla(qism, tugaganda){
+    return OMBOR.rpc("kimt_vaqt", { p_kalit: kalit, p_qism: qism }).then(function(d){
       if (d.xato) throw new Error(d.xato);
       clearInterval(SOAT.t);
-      SOAT = { t: null, tugash: Date.now() + d.qoldi * 1000, otdi: false };
+      SOAT = { t: null, qism: qism, tugash: Date.now() + d.qoldi * 1000, tugaganda: tugaganda, otdi: false };
       tiq(); SOAT.t = setInterval(tiq, 500);
       return d.qoldi;
     });
   }
   function tiq(){
     var s = Math.max(0, Math.round((SOAT.tugash - Date.now()) / 1000)), el = $("soat");
-    el.textContent = "⏱ " + Math.floor(s / 60) + ":" + ("0" + s % 60).slice(-2);
+    el.textContent = "⏱ " + Math.floor(s / 60) + ":" + ("0" + s % 60).slice(-2) + (SOAT.qism === "yozma" ? " · Tinglash, O'qish, Yozish" : " · Gapirish");
     el.classList.toggle("kam", s <= 120); el.hidden = false;
-    if (s <= 0 && !SOAT.otdi){ SOAT.otdi = true; clearInterval(SOAT.t); vaqtTugadi(); }
+    if (s <= 0 && !SOAT.otdi){ SOAT.otdi = true; clearInterval(SOAT.t); SOAT.tugaganda && SOAT.tugaganda(); }
   }
   function soatTox(){ clearInterval(SOAT.t); SOAT.otdi = true; $("soat").hidden = true; }
   function kodXato(ex){ return ex && !/fetch|network|HTTP|yopiq/i.test(String(ex.message)) && (ex instanceof TypeError || ex instanceof ReferenceError); }
 
   function savolBoshla(bolim){
-    soatBoshla().then(function(qoldi){
+    soatBoshla("yozma", yozmaTugadi).then(function(qoldi){
       if (qoldi <= 0) return;
       S = { bolim: bolim, savollar: tuz(bolim), i: 0, javoblar: [] };
       $("steps").innerHTML = stepsHtml(bolim);
@@ -292,30 +348,32 @@
     });
   }
 
-  // Vaqt tugadi: joriy bo'lim shu paytgacha javoblar bilan, qolgan bo'lim 0 bilan saqlanadi
-  function vaqtTugadi(){
+  // 30 daqiqa tugadi: joriy bo'lim shu paytgacha javoblar bilan, qolganlari 0 bilan saqlanadi, keyin Gapirish
+  function yozmaTugadi(){
+    player.pause();
     var n = natija(), ishlar = [];
     if (S && n[S.bolim] == null){
       var togri = S.javoblar.filter(function(x){ return x.ok; }).length;
       ishlar.push({ b: S.bolim, ball: Math.round(togri * 100 / S.savollar.length), j: S.javoblar });
     }
-    ["oqish", "yozish"].forEach(function(b){ if (n[b] == null && !(S && S.bolim === b)) ishlar.push({ b: b, ball: 0, j: [] }); });
+    ["tinglash", "oqish", "yozish"].forEach(function(b){ if (n[b] == null && !(S && S.bolim === b)) ishlar.push({ b: b, ball: 0, j: [] }); });
     S = null;
     $("steps").innerHTML = stepsHtml(""); ekran("s-savol");
-    $("q").innerHTML = '<div class="q-text">⏱ Vaqt tugadi</div><p class="soft">Javoblaringiz saqlanmoqda…</p>';
+    $("q").innerHTML = '<div class="q-text">⏱ Vaqt tugadi</div><p class="soft">Javoblaringiz saqlanmoqda. Endi Gapirish qismi boshlanadi…</p>';
     ishlar.reduce(function(pr, x){
       return pr.then(function(){ return OMBOR.rpc("kimt_bolim", { p_kalit: kalit, p_bolim: x.b, p_ball: x.ball, p_javob: x.j }); });
-    }, Promise.resolve()).then(function(){ return yangila(); }).then(natijaEkran)
+    }, Promise.resolve()).then(function(){ return yangila(); }).then(function(){ setTimeout(davom, 1500); })
       .catch(function(){ xatoEkran("Internet yo'q", "Sahifani yangilang — javoblaringiz saqlangan."); });
   }
 
   function chiz(){
     var q = S.savollar[S.i], n = S.savollar.length;
-    S.tanlov = null; S.qurilgan = [];
+    S.tanlov = null; S.qurilgan = []; S.plays = 0;
     $("prog").style.width = (S.i * 100 / n) + "%";
     $("progt").textContent = BOLIMLAR.filter(function(b){ return b.k === S.bolim; })[0].nom + ": " + (S.i + 1) + " / " + n;
     $("progb").textContent = "";
     var h = '<div class="q-type">' + q.tur + '</div><div class="q-text">' + q.matn + '</div><div class="q-text-ar ar">' + q.matnAr + '</div>';
+    if (q.audio) h += '<button class="play" id="play" type="button" aria-label="Ovozni eshitish">🔊</button><div class="play-n" id="play-n">3 marta eshitish mumkin</div>';
     if (q.parcha) h += '<div class="matn-h">📖 Hikoyadan parcha:</div><div class="matn ar">' + esc(q.parcha) + '</div>';
     if (q.pic) h += '<div class="q-pic">' + q.pic + '</div>';
     if (q.ar) h += '<div class="q-ar ar">' + esc(q.ar) + '</div>';
@@ -330,6 +388,11 @@
     h += '<button class="btn wide next" id="next" disabled>' + (S.i + 1 < n ? "Keyingi →" : "Bo'limni tugatish ✓") + '</button>';
     $("q").innerHTML = h;
 
+    if (q.audio){
+      var pb = $("play");
+      var bos = function(){ if (S.plays >= 3) return; S.plays++; ijro(q.audio); $("play-n").textContent = S.plays >= 3 ? "Boshqa eshitib bo'lmaydi" : "Yana " + (3 - S.plays) + " marta eshitish mumkin"; pb.disabled = S.plays >= 3; };
+      pb.addEventListener("click", bos); bos();
+    }
     $("q").querySelectorAll(".opt").forEach(function(b){
       b.addEventListener("click", function(){
         $("q").querySelectorAll(".opt").forEach(function(x){ x.classList.remove("sel"); });
@@ -352,14 +415,15 @@
     var q = S.savollar[S.i];
     var javob = q.tiles ? qurilgan(q) : S.tanlov;
     var ok = String(javob) === String(q.togri) || (q.alt || []).indexOf(String(javob)) >= 0;
-    S.javoblar.push({ s: q.matn, a: q.ar || "", u: q.uz || "", j: String(javob), t: String(q.togri), ok: ok });
+    S.javoblar.push({ s: q.matn, a: q.ar || (q.audio && !q.parcha ? "🔊 " + (q.audio.length > 60 ? "(parcha)" : q.audio) : ""), u: q.uz || "", j: String(javob), t: String(q.togri), ok: ok });
+    player.pause();
     if (S.i + 1 < S.savollar.length){ S.i++; chiz(); window.scrollTo(0, 0); return; }
     var togri = S.javoblar.filter(function(x){ return x.ok; }).length;
     var ball = Math.round(togri * 100 / S.javoblar.length);
     $("next").disabled = true; $("next").textContent = "Saqlanmoqda…";
     OMBOR.rpc("kimt_bolim", { p_kalit: kalit, p_bolim: S.bolim, p_ball: ball, p_javob: S.javoblar }).then(function(d){
       if (d && d.xato === "yopiq") return xatoEkran("Imtihon yopilgan", "Ustozingiz imtihonni yopgan.");
-      if (SOAT.otdi) return;  // vaqt tugab, vaqtTugadi o'zi davom ettiradi
+      if (SOAT.otdi && SOAT.qism === "yozma") return;  // vaqt tugab, yozmaTugadi o'zi davom ettiradi
       S = null;
       return yangila().then(davom);
     }).catch(function(){
@@ -368,20 +432,131 @@
     });
   }
 
-  // ---------- 3. natija ----------
+  // ---------- 3. gapirish ----------
+  // 1) talxis (matni ko'rinadi, 2 daqiqagacha) 2–3) savollar — faqat ovozda (1 daqiqagacha). Ro'yxat bir marta omborga saqlanadi.
+  var G = { i: 0 }, rec = null, chunks = [], stream = null, tmr = null, blob = null;
+  function gapirishBoshla(){
+    var tayyor = holat.gsavollar && holat.gsavollar.length === 3 ? Promise.resolve(holat.gsavollar) :
+      OMBOR.rpc("kimt_gsavollar", { p_kalit: kalit, p_list: [B.gapirish.talxis].concat(olish(B.gapirish.savollar, 2).map(function(s){
+        return { savol: s[0], uz: s[1], kutilgan: s[2] }; })) })
+        .then(function(d){ if (d.xato) throw new Error(d.xato); return d.gsavollar; });
+    tayyor.then(function(list){
+      G.list = list;
+      if (SOAT.qism !== "gapirish" || SOAT.otdi) return soatBoshla("gapirish", gapVaqtTugadi).then(function(q){ return [list, q]; });
+      return [list, 1];
+    }).then(function(r){
+      if (r[1] <= 0 || G.vaqtTugadi) return tugat();
+      var bor = holat.audio || [];
+      G.i = [1, 2, 3].filter(function(n){ return bor.indexOf(n) < 0; })[0];
+      if (!G.i) return tugat();
+      $("steps2").innerHTML = stepsHtml("gapirish");
+      ekran("s-gap"); gChiz();
+    }).catch(function(ex){
+      if (/yopiq/.test(ex && ex.message)) return xatoEkran("Imtihon yopilgan", "Ustozingiz imtihonni yopgan.");
+      xatoEkran("Internet yo'q", "Sahifani yangilang — javoblaringiz saqlangan.");
+    });
+  }
+  function gChiz(){
+    var v = G.list[G.i - 1], talxis = G.i === 1; blob = null; G.plays = 0; G.max = talxis ? 120 : 60;
+    var h = '<div class="q-type">Gapirish · ' + G.i + ' / 3</div>';
+    if (talxis){
+      h += '<div class="q-text">Hikoyani qisqacha aytib bering</div><div class="q-text-ar ar">تَحَدَّثْ عَنِ الْقِصَّةِ بِاخْتِصَارٍ</div>' +
+        '<div class="talxis"><span class="ar">' + esc(B.ar) + '</span><p>' + esc(B.nom) + '</p></div>' +
+        '<p class="maslahat">💡 Hikoyada kim bor edi? Nima bo\'ldi? Oxiri qanday tugadi? 4–6 ta gap bilan arabcha gapiring. 2 daqiqagacha.</p>';
+    } else {
+      h += '<div class="q-text">Savolni eshiting va javob bering</div><div class="q-text-ar ar">اسْتَمِعْ وَأَجِبْ</div>' +
+        '<p class="soft">Savol yozilmaydi — xuddi suhbatdagidek. Arabcha javob bering, 1 daqiqagacha.</p>';
+    }
+    h += '<button class="play" id="gplay" type="button" aria-label="Savolni eshitish">🔊</button><div class="play-n" id="gplay-n"></div>';
+    h += '<div class="rec"><button class="mic" id="mic" type="button" aria-label="Yozishni boshlash">🎙</button><div class="timer" id="timer">Bosing va gapiring</div>' +
+         '<audio id="tinglash" controls hidden></audio><div class="recbtns" id="recbtns" hidden>' +
+         '<button class="btn alt" type="button" id="qayta">↺ Qayta yozish</button><button class="btn" type="button" id="yubor">Yuborish ✓</button></div>' +
+         '<div class="err" id="g-err"></div></div>';
+    $("g").innerHTML = h;
+    var gp = $("gplay");
+    var gbos = function(){ if (G.plays >= 3) return; G.plays++; ijro(v.savol);
+      $("gplay-n").textContent = G.plays >= 3 ? "Boshqa eshitib bo'lmaydi" : "Yana " + (3 - G.plays) + " marta eshitish mumkin"; gp.disabled = G.plays >= 3; };
+    gp.addEventListener("click", gbos); gbos();
+    $("mic").addEventListener("click", function(){ player.pause(); rec && rec.state === "recording" ? toxta() : boshla(); });
+    $("qayta").addEventListener("click", function(){ blob = null; $("tinglash").hidden = true; $("recbtns").hidden = true; $("mic").hidden = false; $("timer").textContent = "Bosing va gapiring"; });
+    $("yubor").addEventListener("click", yubor);
+  }
+  function mimeTanla(){
+    var t = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"];
+    for (var i = 0; i < t.length; i++) if (window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t[i])) return t[i];
+    return "";
+  }
+  function boshla(){
+    $("g-err").textContent = "";
+    if (!navigator.mediaDevices || !window.MediaRecorder){ $("g-err").textContent = "Bu brauzer ovoz yozolmaydi. Chrome yoki Safari'da oching."; return; }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(s){
+      stream = s; chunks = [];
+      var m = mimeTanla();
+      rec = m ? new MediaRecorder(s, { mimeType: m, audioBitsPerSecond: 48000 }) : new MediaRecorder(s);
+      rec.ondataavailable = function(e){ if (e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop = function(){
+        stream.getTracks().forEach(function(t){ t.stop(); });
+        blob = new Blob(chunks, { type: rec.mimeType || "audio/webm" });
+        var a = $("tinglash"); a.src = URL.createObjectURL(blob); a.hidden = false;
+        $("recbtns").hidden = false; $("mic").hidden = true; $("mic").classList.remove("on");
+        $("timer").textContent = "Eshitib ko'ring. Yaxshi bo'lsa — yuboring";
+        if (G.vaqtTugadi) yubor();
+      };
+      rec.start(); $("mic").classList.add("on");
+      var t0 = Date.now();
+      tmr = setInterval(function(){ var s = Math.floor((Date.now() - t0) / 1000);
+        $("timer").textContent = "⏺ " + s + " / " + G.max + " soniya · to'xtatish uchun bosing"; if (s >= G.max) toxta(); }, 250);
+    }).catch(function(){ $("g-err").textContent = "Mikrofonga ruxsat bering: manzil qatoridagi 🔒 belgisini bosib, «Mikrofon» → «Ruxsat»."; });
+  }
+  function toxta(){ clearInterval(tmr); if (rec && rec.state === "recording") rec.stop(); }
+  function yubor(){
+    if (!blob) return;
+    if (blob.size < 1500){ $("g-err").textContent = "Ovoz juda qisqa — qayta yozing"; return; }
+    var b = $("yubor"); b.disabled = true; b.textContent = "Yuborilmoqda…";
+    var fr = new FileReader();
+    fr.onload = function(){
+      var data = String(fr.result).split(",")[1];
+      OMBOR.rpc("kimt_audio_yukla", { p_kalit: kalit, p_n: G.i, p_mime: blob.type, p_data: data }).then(function(d){
+        if (d && d.xato === "yopiq") return xatoEkran("Imtihon yopilgan", "Ustozingiz imtihonni yopgan.");
+        if (d && d.xato === "vaqt") return tugat();
+        if (d && d.xato){ $("g-err").textContent = d.xato === "hajm" ? "Ovoz juda uzun yoki juda qisqa" : "Yuborilmadi"; b.disabled = false; b.textContent = "Yuborish ✓"; return; }
+        return yangila().then(G.vaqtTugadi ? tugat : gapirishBoshla);
+      }).catch(function(){ $("g-err").textContent = "Internet yo'q — qayta bosing"; b.disabled = false; b.textContent = "Yuborish ✓"; });
+    };
+    fr.readAsDataURL(blob);
+  }
+  // 10 daqiqa tugadi: yozilayotgan yoki yozib bo'lingan ovoz yuboriladi, keyin imtihon yakunlanadi
+  function gapVaqtTugadi(){
+    G.vaqtTugadi = true; player.pause();
+    if ($("mic")) $("mic").disabled = true;
+    if ($("g-err")) $("g-err").textContent = "⏱ Vaqt tugadi";
+    if (rec && rec.state === "recording") { toxta(); return; }
+    if (blob && $("yubor") && !$("yubor").disabled) { yubor(); return; }
+    if ($("yubor") && $("yubor").disabled) return;
+    tugat();
+  }
+  function tugat(){
+    soatTox();
+    OMBOR.rpc("kimt_tugat", { p_kalit: kalit }).then(function(){ return yangila(); }).then(natijaEkran)
+      .catch(function(){ xatoEkran("Internet yo'q", "Sahifani yangilang — javoblaringiz saqlangan."); });
+  }
+
+  // ---------- 4. natija ----------
   function rang(p){ return p >= 70 ? "var(--green)" : p >= 50 ? "var(--gold)" : "var(--red)"; }
   function natijaEkran(){
     soatTox();
     var n = natija(), v = $("verdict");
     if (n.xulosa === "otdi"){ v.className = "verdict ok"; v.innerHTML = '<div class="big">🎉</div><h2>Tabriklaymiz! O\'tdingiz</h2><p>Umumiy ball: ' + n.umumiy + '%</p>'; }
-    else { v.className = "verdict no"; v.innerHTML = '<div class="big">😔</div><h2>Bu safar o\'tmadingiz</h2><p>Umumiy ball: ' + n.umumiy + '%. Kitobni yana bir o\'qib chiqing va ustozingiz bilan gaplashing.</p>'; }
+    else if (n.xulosa === "yiqildi"){ v.className = "verdict no"; v.innerHTML = '<div class="big">😔</div><h2>Bu safar o\'tmadingiz</h2><p>Umumiy ball: ' + n.umumiy + '%. Kitobni yana bir o\'qib chiqing va ustozingiz bilan gaplashing.</p>'; }
+    else { v.className = "verdict wait"; v.innerHTML = '<div class="big">⏳</div><h2>Javoblaringiz qabul qilindi</h2><p>Gapirish qismini ustoz tekshiryapti. Keyinroq shu sahifani oching.</p>'; }
     $("res").innerHTML = BOLIMLAR.map(function(b){
-      var p = n[b.k] || 0;
-      return '<div class="res-row"><i>' + b.ic + '</i><div class="g"><b><span>' + b.nom + '</span><span>' + p + '%</span></b>' +
-        '<div class="bar"><u style="width:' + p + '%;background:' + rang(p) + '"></u></div></div></div>';
+      var p = n[b.k];
+      return '<div class="res-row"><i>' + b.ic + '</i><div class="g"><b><span>' + b.nom + '</span><span>' + (p == null ? "⏳ tekshirilmoqda" : p + "%") + '</span></b>' +
+        '<div class="bar"><u style="width:' + (p || 0) + '%;background:' + rang(p || 0) + '"></u></div></div></div>';
     }).join("");
     ekran("s-natija");
   }
+  $("res-refresh").addEventListener("click", function(){ yangila().then(natijaEkran).catch(function(){}); });
   $("boshqa").addEventListener("click", function(e){
     e.preventDefault(); OMBOR.set("kimt_kalit", null); kalit = null; holat = null;
     $("who").textContent = ""; $("kod").value = ""; $("ism").value = ""; ekran("s-kirish");
