@@ -133,6 +133,9 @@ h1{font-size:28px;font-weight:900}
   function kitobNom(k){ var b = window.KITOBLAR[k]; return b ? b.nom + " · " + b.ar : k; }
 
   $("y-kitob").innerHTML = Object.keys(window.KITOBLAR).map(function(k){ return '<option value="' + k + '">' + esc(kitobNom(k)) + '</option>'; }).join("");
+  // Direktor panelidan kelinsa (?kitob=juha3) — o'sha kitob oldindan tanlanadi
+  var tanlangan = new URLSearchParams(location.search).get("kitob");
+  if (tanlangan && window.KITOBLAR[tanlangan]) $("y-kitob").value = tanlangan;
 
   // ---------- kirish ----------
   $("pin").addEventListener("input", function(){ this.value = this.value.replace(/\D/g, "").slice(0, 4); });
