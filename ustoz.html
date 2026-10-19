@@ -67,8 +67,8 @@ h1{font-size:28px;font-weight:900}
   <!-- Kirish -->
   <form class="card" id="s-login" novalidate onsubmit="return false" hidden style="max-width:420px;margin:30px auto">
     <h2 style="font-weight:900;font-size:24px">Ustoz kirishi</h2>
-    <label for="login">Login</label>
-    <input id="login" autocomplete="username" autocapitalize="off" placeholder="Tabassum_arabic">
+    <label for="login">Ism familiyangiz</label>
+    <input id="login" autocomplete="username" placeholder="Ism familiya">
     <label for="pin">Parol (4 ta raqam)</label>
     <input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" style="text-align:center;letter-spacing:.5em;font-size:24px">
     <div class="err" id="l-err"></div>
@@ -132,7 +132,7 @@ h1{font-size:28px;font-weight:900}
         if (d.rol === "oquvchi" || d.rol === "hisobchi"){ $("l-err").textContent = "Bu sahifa faqat ustozlar uchun"; return; }
         token = d.token; OMBOR.set("imt_ustoz", token); return boshla();
       }
-      $("l-err").textContent = d.xato === "blok" ? "Ko'p xato. 15 daqiqadan keyin urinib ko'ring" : d.xato === "login" ? "Login noto'g'ri" : "Parol noto'g'ri";
+      $("l-err").textContent = d.xato === "blok" ? "Ko'p xato. 15 daqiqadan keyin urinib ko'ring" : d.xato === "login" ? "Login noto'g'ri" : "Ism yoki parol noto'g'ri";
       $("pin").value = "";
     }).catch(function(){ $("l-err").textContent = "Internet bilan bog'lanib bo'lmadi"; });
   });
