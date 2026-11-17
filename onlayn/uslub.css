@@ -1,0 +1,28 @@
+:root{
+  --bg:#EDDCC0; --card:#FFF8EA; --ink:#3A2716; --soft:#77604A; --line:#D9C39C; --sand:#E2CCA3;
+  --brand:#C8553D; --brand-d:#9E3F2B; --gold:#E09A2B; --green:#5B8C3A; --red:#B3261E; --r:22px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,"Segoe UI",sans-serif;font-weight:500;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+[hidden]{display:none!important}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+.card{background:var(--card);border-radius:var(--r);padding:22px;box-shadow:0 5px 0 var(--line)}
+.ar{font-family:"Noto Naskh Arabic",serif;font-weight:700;direction:rtl;unicode-bidi:isolate}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:16px;background:var(--brand);color:#fff;font:inherit;font-weight:900;border:0;box-shadow:0 5px 0 var(--brand-d);cursor:pointer;transition:transform .08s,box-shadow .08s;text-decoration:none}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--brand-d)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.alt{background:var(--sand);color:var(--ink);box-shadow:0 5px 0 var(--line)}
+.btn.sm{padding:9px 16px;font-size:14px;border-radius:13px;box-shadow:0 4px 0 var(--brand-d)}
+.btn.sm.alt{box-shadow:0 4px 0 var(--line)}
+.btn.wide{width:100%}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px}
+.seal{width:42px;height:42px;border-radius:50%;background:var(--brand);display:grid;place-items:center;flex:none}
+.seal svg{width:30px;height:30px}
+input,select{width:100%;padding:14px 16px;border-radius:14px;border:2px solid var(--line);background:#fff;font:inherit;font-weight:800;color:var(--ink);outline:0}
+input:focus,select:focus{border-color:var(--brand)}
+label{display:block;font-weight:800;margin:14px 0 6px}
+.err{color:var(--red);font-weight:800;font-size:15px;min-height:22px;margin-top:10px}
+.soft{color:var(--soft)}
+.dunes{position:fixed;left:0;right:0;bottom:0;width:100%;height:120px;z-index:-1}

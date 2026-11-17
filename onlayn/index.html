@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabassum · Onlayn imtihon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--g:#17795E;--g2:#E6F4EE;--o:#F2A922;--k:#1F6FEB;--r:#D64545;--y:#2E9E5B;--t:#1E2A28;--l:#D7E2DD;--s:#6b7a75}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:#F6F8F7;color:var(--t);font-family:Inter,system-ui,sans-serif}
+.ar{font-family:'Noto Naskh Arabic',serif;direction:rtl}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--l);padding:8px 14px;display:flex;align-items:center;gap:10px}
+.logo{font-family:'Noto Naskh Arabic',serif;font-weight:700;color:var(--g);font-size:26px;line-height:1}
+.logo small{display:block;font-family:Inter;font-size:11px;color:var(--o);font-weight:800;letter-spacing:.5px}
+header .ism{margin-inline-start:auto;font-size:13px;color:var(--s);text-align:end;min-width:0}
+header .ism b{display:block;color:var(--t);font-size:14px}
+.pleer{position:sticky;top:58px;z-index:4;margin:8px 12px 0;background:#fff;border:1px solid var(--l);border-radius:14px;padding:8px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px #0001}
+.pleer button{width:40px;height:40px;border-radius:50%;border:0;background:var(--g);color:#fff;font-size:18px;flex:none}
+.pleer button:disabled{background:#B8C7C1}
+.pleer .bar{flex:1;height:6px;background:#E3E9E6;border-radius:9px;position:relative}.pleer .bar i{position:absolute;inset:0 auto 0 0;background:var(--k);border-radius:9px;width:0}
+.pleer .vq{font-size:13px;color:var(--s);text-align:end}
+main{padding:4px 12px 160px;max-width:760px;margin:auto}
+.part{display:none}.part.on{display:block}
+.ph{background:var(--g);color:#fff;border-radius:14px;padding:10px 14px;margin:10px 0}
+.ph b{font-size:17px}.ph .ar{font-size:19px;margin-top:3px}
+.ph i{float:inline-end;font-style:normal;font-size:13px;background:#ffffff2e;border-radius:99px;padding:2px 10px}
+.matn{background:#FFF8E8;border:1.5px solid #F4D79A;border-radius:14px;padding:12px 16px;font-size:22px;line-height:2;margin-bottom:10px}
+.email{background:#fff;border:1.5px solid var(--l);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.email .eh{background:var(--g2);padding:8px 14px;font-size:17px;display:flex;flex-wrap:wrap;gap:4px 16px}
+.email .matn{border:0;border-radius:0;margin:0}
+.sv{background:#fff;border:1px solid var(--l);border-radius:14px;padding:10px 12px;margin-bottom:9px;scroll-margin-top:140px}
+.sv .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--g);color:#fff;font-size:13px;font-weight:700;margin-inline-start:8px;vertical-align:middle;font-family:Inter}
+.sv .s{font-size:21px}
+.op{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;direction:rtl}
+.op label{flex:1 1 auto;min-width:76px;text-align:center;border:1.5px solid var(--l);border-radius:12px;padding:6px 10px;font-family:'Noto Naskh Arabic',serif;font-size:20px;cursor:pointer;background:#fff;user-select:none}
+.op.ar1 label{flex-basis:100%}
+.op input{display:none}
+.op label:has(input:checked){border-color:var(--k);background:#EEF4FF;color:var(--k);font-weight:700}
+.op label.tog{border-color:var(--y)!important;background:#E7F6EC!important;color:var(--t)!important}
+.op label.xat{border-color:var(--r)!important;background:#FCEAEA!important}
+.rg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+@media(min-width:560px){.rg{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.rg .sv{padding:8px;margin:0}
+.rg img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block;margin:6px 0}
+.svg{display:block;width:160px;margin:6px auto}
+select,.inp{width:100%;font-family:'Noto Naskh Arabic',serif;font-size:20px;padding:6px 10px;border:1.5px solid var(--l);border-radius:10px;direction:rtl;background:#fff;margin-top:8px}
+.inp.num{direction:ltr;text-align:center;font-family:Inter;max-width:180px;display:block}
+.tog2{border-color:var(--y)!important;background:#E7F6EC!important}.xat2{border-color:var(--r)!important;background:#FCEAEA!important}
+.tj{font-size:16px;color:var(--y);margin-top:4px;font-weight:700}
+.tiles .qat{min-height:46px;border:1.5px dashed var(--l);border-radius:12px;padding:5px;display:flex;flex-wrap:wrap;gap:6px;direction:rtl;margin-top:8px;background:#FAFCFB}
+.tiles .hov{display:flex;flex-wrap:wrap;gap:6px;direction:rtl;margin-top:8px}
+.tiles button{font-family:'Noto Naskh Arabic',serif;font-size:19px;border:1.5px solid var(--l);background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer}
+.tiles .qat button{border-color:var(--k);background:#EEF4FF}
+.tiles button:disabled{opacity:.35}
+textarea{width:100%;min-height:220px;font-family:'Noto Naskh Arabic',serif;font-size:20px;line-height:1.9;padding:10px;border:1.5px solid var(--l);border-radius:12px;direction:rtl}
+.yordam{display:flex;flex-wrap:wrap;gap:6px;direction:rtl;margin:6px 0 8px}
+.yordam span{font-family:'Noto Naskh Arabic',serif;background:var(--g2);border-radius:99px;padding:2px 12px;font-size:17px}
+.izoh{font-size:14px;color:var(--s);margin:4px 2px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--l);z-index:6;padding:6px 8px 8px}
+.nums{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 6px;align-items:center}
+.nums b{white-space:nowrap;font-size:14px;margin-inline-end:4px}
+.nums button{min-width:36px;height:36px;border:1px solid var(--l);background:#fff;border-radius:8px;font-size:14px;flex:none}
+.nums button.ok{background:var(--k);color:#fff;border-color:var(--k)}
+.nums button.tog{background:var(--y);color:#fff;border-color:var(--y)}.nums button.xat{background:var(--r);color:#fff;border-color:var(--r)}
+.parts{display:flex;gap:4px;align-items:center;overflow-x:auto}
+.parts button{flex:1 0 auto;border:0;background:none;padding:8px 8px;font-size:13px;font-weight:700;color:var(--s);border-radius:8px}
+.parts button.on{background:var(--g2);color:var(--g)}
+.parts .chk{background:var(--o);color:#fff}
+.arr{position:fixed;bottom:104px;inset-inline-end:12px;display:flex;gap:8px;z-index:6}
+.arr button{width:46px;height:42px;border:0;border-radius:10px;background:#333;color:#fff;font-size:22px}
+.arr button:disabled{background:#ccc}
+.ekran{position:fixed;inset:0;background:#0008;z-index:9;display:grid;place-items:center;padding:16px;overflow:auto}
+.ekran>div{background:#fff;border-radius:18px;padding:20px;max-width:430px;width:100%;text-align:center}
+.ekran h2{margin:4px 0 6px;color:var(--g)}
+.ekran input{width:100%;font-size:18px;padding:10px;border:1.5px solid var(--l);border-radius:10px;margin:6px 0;font-family:inherit}
+.ekran #kod{text-align:center;letter-spacing:.4em;font-size:26px;font-weight:800}
+.bt{width:100%;padding:12px;border:0;border-radius:12px;background:var(--g);color:#fff;font-size:17px;font-weight:700;margin-top:8px;cursor:pointer;font-family:inherit}
+.bt.ik{background:#E3E9E6;color:var(--t)}
+.bt:disabled{opacity:.6}
+.err{color:var(--r);font-weight:700;font-size:14px;min-height:18px}
+.ekran table{width:100%;border-collapse:collapse;margin:8px 0;font-size:15px}.ekran td{padding:6px;border-bottom:1px solid var(--l);text-align:start}.ekran td:last-child{text-align:end;font-weight:700;white-space:nowrap}
+.jami{font-size:40px;font-weight:800;color:var(--g)}
+.muh{font-size:13px;color:var(--s)}
+.toast{position:fixed;left:50%;bottom:120px;transform:translateX(-50%);background:var(--t);color:#fff;padding:10px 18px;border-radius:12px;font-weight:700;z-index:20;max-width:calc(100vw - 32px)}
+</style>
+</head>
+<body>
+<header><div class="logo">التَّبَسُّمُ<small id="h-kit">TABASSUM</small></div><div class="ism"><b id="h-ism"></b><div class="ar" id="h-nom" style="font-size:15px"></div></div></header>
+<div class="pleer" id="pleer" hidden><button id="play" disabled>▶</button><div class="bar"><i id="bar"></i></div><div class="vq" id="vq">🎧 Ustoz o‘qib beradi</div></div>
+<main id="m"></main>
+<div class="arr" id="arr" hidden><button id="old" aria-label="Oldingi">‹</button><button id="kei" aria-label="Keyingi">›</button></div>
+<nav id="nav" hidden><div class="nums" id="nums"></div><div class="parts" id="parts"></div></nav>
+
+<div class="ekran" id="kir" hidden><div>
+  <div class="logo" style="font-size:36px">التَّبَسُّمُ</div>
+  <h2>Onlayn imtihon</h2>
+  <div class="muh">Ustoz bergan 5 xonali kodni va ismingizni yozing</div>
+  <input id="kod" inputmode="numeric" maxlength="5" placeholder="•••••" autocomplete="off">
+  <input id="ismi" placeholder="Ism va familiya" maxlength="60" autocomplete="name">
+  <div class="err" id="k-err"></div>
+  <button class="bt" id="kirish">Boshlash</button>
+</div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="ombor.js?v=358fe828"></script>
+<script src="imt.js?v=bed6275f"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var TF_IZ=null, S=null; // S = {kalit, ism, imtihon, variant, nom}
+var E,V,P=0,tek=false,J={},INSHO='';
+var qs=new URLSearchParams(location.search), SINOV=qs.get('sinov');
+function toast(t){var e=$('toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){e.hidden=true},3500)}
+function toza(s){return String(s||'').replace(/[ً-ْٰـ]/g,'').replace(/[إأآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه')
+  .replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)}).replace(/[^\p{L}\p{N}:]/gu,'')}
+function sakla(){if(!S)return;try{localStorage.setItem('onl_j_'+S.kalit,JSON.stringify({J:J,I:INSHO}))}catch(e){}}
+function yukla(){try{var d=JSON.parse(localStorage.getItem('onl_j_'+S.kalit)||'{}');J=d.J||{};INSHO=d.I||''}catch(e){}}
+
+// ---------- kirish ----------
+function xatoMatn(x){return {kod:"Kod noto‘g‘ri yoki imtihon yopilgan",ism:"Ism-familiyani to‘liq yozing",blok:"Ko‘p xato. 15 daqiqadan keyin urinib ko‘ring",topshirgan:"Siz bu imtihonni topshirib bo‘lgansiz"}[x]||x}
+$('kirish').onclick=function(){
+  var kod=$('kod').value.trim(),ism=$('ismi').value.trim();
+  if(!/^\d{5}$/.test(kod)){$('k-err').textContent='Kod 5 ta raqam';return}
+  if(ism.length<3){$('k-err').textContent=xatoMatn('ism');return}
+  this.disabled=true;var b=this;
+  OMBOR.rpc('onl_kirish',{p_kod:kod,p_ism:ism}).then(function(d){
+    b.disabled=false;
+    if(d.xato){$('k-err').textContent=xatoMatn(d.xato);return}
+    S=d;OMBOR.set('onl_kalit',d.kalit);$('kir').hidden=true;boshla();
+  }).catch(function(e){b.disabled=false;$('k-err').textContent='Internet xatosi: '+e.message});
+};
+function start(){
+  if(SINOV){S={kalit:'sinov_'+SINOV,ism:'Sinov (ustoz)',imtihon:SINOV,variant:qs.get('v')||'a'};yukla();boshla();return}
+  var k=OMBOR.get('onl_kalit');
+  if(!k){$('kir').hidden=false;return}
+  OMBOR.rpc('onl_holat',{p_kalit:k}).then(function(d){
+    if(!d||d.xato){OMBOR.set('onl_kalit',null);$('kir').hidden=false;return}
+    S=d;S.kalit=k;
+    if(d.tugagan){E=IMT[S.imtihon];V=E&&E.vars[S.variant];natijaOyna(null);return}
+    yukla();boshla();
+  }).catch(function(){$('kir').hidden=false});
+}
+
+// ---------- chizish ----------
+var QL=[]; // tekis ro'yxat: {q, part, i}
+function opsHtml(i,arr,ar1){return '<div class="op'+(ar1?' ar1':'')+'">'+arr.map(function(o,k){return '<label data-q="'+i+'" data-k="'+k+'"><input type="radio" name="q'+i+'" value="'+k+'"><span>'+o+'</span></label>'}).join('')+'</div>'}
+function qHtml(i,x,p){
+  var n='<span class="n">'+(i+1)+'</span>', s=x.s?'<span class="s ar">'+x.s+'</span>':'';
+  if(x.t=='mc')return '<div class="sv ar" id="s'+i+'">'+n+s+(x.svg||'')+opsHtml(i,x.o,x.ar||x.o.some(function(o){return o.length>22}))+'</div>';
+  if(x.t=='sel')return '<div class="sv" id="s'+i+'">'+n+'<img src="'+x.img+'" alt=""><select data-q="'+i+'"><option value="">— tanlang —</option>'+p.bank.map(function(w,k){return '<option value="'+k+'">'+w+'</option>'}).join('')+'</select></div>';
+  if(x.t=='inp')return '<div class="sv ar" id="s'+i+'">'+n+s+'<input class="inp'+(x.num?' num':'')+'" data-q="'+i+'" '+(x.num?'inputmode="decimal" placeholder="0"':'placeholder="javob..."')+' autocomplete="off"></div>';
+  if(x.t=='tiles')return '<div class="sv ar tiles" id="s'+i+'" data-q="'+i+'">'+n+s+'<div class="qat"></div><div class="hov">'+x.w.map(function(w,k){return '<button type="button" data-k="'+k+'">'+w+'</button>'}).join('')+'</div></div>';
+}
+function boshla(){
+  E=IMT[S.imtihon];V=E&&E.vars[S.variant];
+  if(!V){document.body.innerHTML='<p style="padding:20px">Imtihon topilmadi. Ustozga ayting.</p>';return}
+  $('h-ism').textContent=S.ism;$('h-nom').textContent=E.ar;$('h-kit').textContent='TABASSUM · '+E.kitob;
+  var h='',qi=0;QL=[];
+  V.parts.forEach(function(p,pi){
+    var mx=p.q.reduce(function(a,x){return a+x.b},0);
+    h+='<section class="part" id="p'+pi+'"><div class="ph"><i>'+fmt(mx)+' ball</i><b>Part '+(pi+1)+' · '+p.ico+' '+p.t+'</b><div class="ar">'+p.ko+'</div></div>';
+    if(p.email)h+='<div class="email ar"><div class="eh"><span>مِنْ: '+p.email[0]+'</span><span>إِلَى: '+p.email[1]+'</span><span>الْمَوْضُوعُ: '+p.email[2]+'</span></div><div class="matn">'+p.matn+'</div></div>';
+    else if(p.matn)h+='<div class="matn ar">'+p.matn+'</div>';
+    var L=p.q.map(function(x){var i=qi++;QL.push({q:x,p:pi,i:i});return qHtml(i,x,p)});
+    h+=p.q[0].t=='sel'?'<div class="rg">'+L.join('')+'</div>':L.join('');
+    h+='</section>';
+  });
+  V.qolda.forEach(function(m){
+    if(!m.yoz)return;
+    h+='<section class="part" id="p'+V.parts.length+'"><div class="ph"><i>'+m.max+' ball · ustoz</i><b>Part '+(V.parts.length+1)+' · 📝 Yozish</b><div class="ar">'+m.matn+'</div></div>'
+      +(m.yordam&&m.yordam.length?'<div class="yordam">'+m.yordam.map(function(x){return '<span>'+x+'</span>'}).join('')+'</div>':'')
+      +'<textarea id="insho" placeholder="...اُكْتُبْ هُنَا"></textarea><div class="izoh">Yozuvni ustoz tekshiradi.</div></section>';
+  });
+  var g=V.qolda.filter(function(m){return !m.yoz});
+  if(g.length)h+='<div class="izoh" style="text-align:center;margin-top:14px">🗣 Gapirish ('+g[0].max+' ball) — ustoz bilan jonli.</div>';
+  $('m').innerHTML=h;
+  $('pleer').hidden=!V.parts.some(function(p){return /Tinglash/.test(p.t)});
+  $('nav').hidden=false;$('arr').hidden=false;
+  bogla();tikla();ko(0);
+  if(SINOV)toast('Sinov rejimi — natija bazaga yozilmaydi');
+}
+function fmt(x){return Math.round(x*10)/10}
+function nParts(){return V.parts.length+(V.qolda.some(function(m){return m.yoz})?1:0)}
+function bogla(){
+  document.querySelectorAll('input[type=radio]').forEach(function(e){e.onchange=function(){J[+e.name.slice(1)]=+e.value;sakla();nums()}});
+  document.querySelectorAll('select[data-q]').forEach(function(e){e.onchange=function(){if(e.value==='')delete J[+e.dataset.q];else J[+e.dataset.q]=+e.value;sakla();nums()}});
+  document.querySelectorAll('input.inp').forEach(function(e){e.oninput=function(){var v=e.value.trim();if(v)J[+e.dataset.q]=v;else delete J[+e.dataset.q];sakla();nums()}});
+  document.querySelectorAll('.tiles').forEach(function(t){
+    var i=+t.dataset.q;
+    t.querySelector('.hov').onclick=function(ev){var b=ev.target.closest('button');if(!b||b.disabled||tek)return;var a=J[i]||[];a.push(+b.dataset.k);J[i]=a;sakla();chizTile(t,i);nums()};
+    t.querySelector('.qat').onclick=function(ev){var b=ev.target.closest('button');if(!b||tek)return;var a=J[i]||[];a.splice(+b.dataset.j,1);if(a.length)J[i]=a;else delete J[i];sakla();chizTile(t,i);nums()};
+  });
+  var ta=$('insho');if(ta){ta.value=INSHO;ta.oninput=function(){INSHO=ta.value;sakla()}}
+}
+function chizTile(t,i){
+  var x=QL[i].q,a=J[i]||[];
+  t.querySelector('.qat').innerHTML=a.map(function(k,j){return '<button type="button" data-j="'+j+'">'+x.w[k]+'</button>'}).join('');
+  t.querySelectorAll('.hov button').forEach(function(b){b.disabled=a.indexOf(+b.dataset.k)>=0});
+}
+function tikla(){
+  QL.forEach(function(r){var i=r.i,x=r.q,v=J[i];if(v===undefined)return;
+    if(x.t=='mc'){var e=document.querySelector('input[name=q'+i+'][value="'+v+'"]');if(e)e.checked=true}
+    else if(x.t=='sel'){document.querySelector('select[data-q="'+i+'"]').value=v}
+    else if(x.t=='inp'){document.querySelector('input.inp[data-q="'+i+'"]').value=v}
+    else if(x.t=='tiles'){chizTile(document.querySelector('.tiles[data-q="'+i+'"]'),i)}
+  });
+}
+function tog(r){var x=r.q,v=J[r.i];if(v===undefined)return false;
+  if(x.t=='mc'||x.t=='sel')return v===x.a;
+  if(x.t=='inp')return x.a.indexOf(toza(v))>=0;
+  if(x.t=='tiles'){var s=toza(v.map(function(k){return x.w[k]}).join(' '));return x.a.some(function(a){return toza(a)===s})}
+}
+function nums(){
+  var L=QL.filter(function(r){return r.p==P});
+  $('nums').innerHTML='<b>Part '+(P+1)+'</b>'+L.map(function(r){var c=J[r.i]!==undefined?'ok':'';if(tek)c=tog(r)?'tog':'xat';return '<button class="'+c+'" data-s="'+r.i+'">'+(r.i+1)+'</button>'}).join('');
+  var n=nParts(),pb='';for(var p=0;p<n;p++)pb+='<button class="'+(p==P?'on':'')+'" data-p="'+p+'">Part '+(p+1)+'</button>';
+  $('parts').innerHTML=pb+'<button class="chk" id="chk">'+(tek?'Natija':'Tekshirish')+'</button>';
+  $('old').disabled=P==0;$('kei').disabled=P==n-1;
+}
+$('nums').onclick=function(e){var b=e.target.closest('button[data-s]');if(b)$('s'+b.dataset.s).scrollIntoView({behavior:'smooth'})};
+$('parts').onclick=function(e){var b=e.target.closest('button');if(!b)return;if(b.id=='chk')tekshir();else ko(+b.dataset.p)};
+function ko(p){P=p;document.querySelectorAll('.part').forEach(function(s){s.classList.toggle('on',s.id=='p'+p)});scrollTo(0,0);nums()}
+$('old').onclick=function(){ko(P-1)};$('kei').onclick=function(){ko(P+1)};
+
+// ---------- tekshirish va yuborish ----------
+var NAT=null;
+function hisob(){
+  var bal=V.parts.map(function(){return 0}),mx=V.parts.map(function(){return 0});
+  QL.forEach(function(r){mx[r.p]+=r.q.b;if(tog(r))bal[r.p]+=r.q.b});
+  return {bal:bal,mx:mx,avto:Math.round(bal.reduce(function(a,b){return a+b},0)),max:Math.round(mx.reduce(function(a,b){return a+b},0))};
+}
+function tekshir(){
+  if(tek){natijaOyna(NAT);return}
+  var qol=QL.length-QL.filter(function(r){return J[r.i]!==undefined}).length;
+  var yoz=V.qolda.some(function(m){return m.yoz});
+  var msg=(qol?qol+' ta savolga javob berilmagan. ':'')+(yoz&&!INSHO.trim()?'Yozish qismi bo‘sh. ':'')+'Imtihonni topshirasizmi? Keyin o‘zgartirib bo‘lmaydi.';
+  if(!confirm(msg))return;
+  var h=hisob();
+  var jav={};QL.forEach(function(r){if(J[r.i]!==undefined)jav[r.i]=r.q.t=='tiles'?J[r.i].map(function(k){return r.q.w[k]}).join(' '):J[r.i]});
+  var tugat=function(){tek=true;NAT={avto:h.avto,max:h.max,qism:h.bal.map(function(b,k){return [fmt(b),fmt(h.mx[k])]}),ism:S.ism};
+    try{localStorage.setItem('onl_n_'+S.kalit,JSON.stringify(NAT))}catch(e){}
+    belgila();nums();natijaOyna(NAT)};
+  if(SINOV){tugat();return}
+  $('chk').disabled=true;
+  OMBOR.rpc('onl_topshir',{p_kalit:S.kalit,p_avto:h.avto,p_max:h.max,p_qism:h.bal.map(fmt),p_javob:jav,p_insho:INSHO.trim()||null}).then(function(d){
+    if(d&&d.xato){toast(d.xato=='yopiq'?'Imtihon yopilgan yoki allaqachon topshirilgan':d.xato);$('chk').disabled=false;return}
+    tugat();
+  }).catch(function(e){$('chk').disabled=false;toast('Yuborilmadi (internet). Qayta bosing: '+e.message)});
+}
+function belgila(){
+  QL.forEach(function(r){var i=r.i,x=r.q,ok=tog(r);
+    if(x.t=='mc'){document.querySelectorAll('label[data-q="'+i+'"]').forEach(function(l){var k=+l.dataset.k;l.querySelector('input').disabled=true;if(k===x.a)l.classList.add('tog');else if(J[i]===k)l.classList.add('xat')})}
+    else if(x.t=='sel'){var s=document.querySelector('select[data-q="'+i+'"]');s.disabled=true;s.classList.add(ok?'tog2':'xat2');if(!ok)s.insertAdjacentHTML('afterend','<div class="tj ar">✓ '+V.parts[r.p].bank[x.a]+'</div>')}
+    else if(x.t=='inp'){var e=document.querySelector('input.inp[data-q="'+i+'"]');e.disabled=true;e.classList.add(ok?'tog2':'xat2');if(!ok)e.insertAdjacentHTML('afterend','<div class="tj ar">✓ '+x.k+'</div>')}
+    else if(x.t=='tiles'){var t=document.querySelector('.tiles[data-q="'+i+'"]');t.querySelector('.qat').classList.add(ok?'tog2':'xat2');if(!ok)t.insertAdjacentHTML('beforeend','<div class="tj ar">✓ '+x.a[0]+'</div>')}
+  });
+  var ta=$('insho');if(ta)ta.readOnly=true;
+}
+function natijaOyna(n){
+  if(!n){try{n=JSON.parse(localStorage.getItem('onl_n_'+S.kalit))}catch(e){}}
+  var e=document.createElement('div');e.className='ekran';
+  var rows='';
+  if(n&&n.qism&&V)rows=V.parts.map(function(p,k){return '<tr><td>Part '+(k+1)+' · '+p.ico+' '+p.t+'</td><td>'+n.qism[k][0]+' / '+n.qism[k][1]+'</td></tr>'}).join('');
+  var ql=V?V.qolda.map(function(m){return '<tr><td>'+(m.yoz?'📝':'🗣')+' '+m.nom+' (ustoz)</td><td>___ / '+m.max+'</td></tr>'}).join(''):'';
+  var av=n?(n.avto+' / '+n.max):((S.avto!=null?S.avto:'?')+' / '+(S.max!=null?S.max:'?'));
+  e.innerHTML='<div><h2>'+(S.ism||'')+'</h2><div class="muh">Avtomatik tekshirilgan qism</div><div class="jami">'+av+'</div><table>'+rows+ql+'</table>'
+    +'<div class="muh">✅ Natija ustozga yuborildi. Yozish va gapirishga ustoz baho qo‘yadi.</div>'
+    +(V&&QL.length?'<button class="bt" id="yop">Javoblarni ko‘rish</button>':'')+'<button class="bt ik" id="yangi">Boshqa imtihon (yangi kod)</button></div>';
+  document.body.appendChild(e);
+  if($('yop'))$('yop').onclick=function(){e.remove()};
+  $('yangi').onclick=function(){OMBOR.set('onl_kalit',null);location.href=location.pathname};
+}
+start();
+})();
+</script>
+</body>
+</html>
