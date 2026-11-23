@@ -18,6 +18,8 @@ h1{font-size:28px;font-weight:900}
 .tin{white-space:pre-wrap;font-family:"Noto Naskh Arabic",serif;direction:rtl;font-size:20px;line-height:1.9;background:#FFF8E8;border-radius:12px;padding:10px 14px;margin-top:8px}
 .ins{white-space:pre-wrap;font-family:"Noto Naskh Arabic",serif;direction:rtl;font-size:18px;line-height:1.8;background:#F4F6F5;border-radius:12px;padding:10px 14px}
 .ar{font-family:"Noto Naskh Arabic",serif;unicode-bidi:isolate}
+.gvar{display:flex;gap:6px;margin:8px 0 4px;flex-wrap:wrap;align-items:center}.gvar button{font:inherit;font-weight:800;font-size:18px;padding:4px 14px;border:2px solid var(--line);border-radius:99px;background:#fff;cursor:pointer}.gvar button.on{background:#1F5E4B;color:#fff;border-color:#1F5E4B}
+.gq2{background:#F2F7F4;border-radius:12px;padding:8px 14px;margin-top:8px;direction:rtl;font-family:"Noto Naskh Arabic",serif}.gq2 h4{margin:0 0 4px;font-size:18px;color:#1F5E4B}.gq2 ol{margin:0;padding-right:26px;font-size:20px;line-height:1.9}.gq2 .jd{font-size:16px;color:#7A6A62}.gq2 img{max-width:180px;max-height:200px;border-radius:10px;display:block;margin:4px 0}
 .bin{width:80px;font:inherit;font-weight:900;font-size:18px;padding:6px;border:2px solid var(--line);border-radius:10px;text-align:center}
 .sess{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:18px}
 .ses{display:flex;flex-direction:column;gap:10px;cursor:pointer}
@@ -110,6 +112,7 @@ h1{font-size:28px;font-weight:900}
       <div class="bigkod" id="o-kod"></div>
       <p class="soft" style="text-align:center;font-weight:700" id="o-link"></p>
       <details id="o-tin" style="margin-top:10px"><summary style="font-weight:800;cursor:pointer">🎧 Tinglash matni (o‘quvchilarga o‘qib bering)</summary><div class="tin" id="o-tinm"></div></details>
+      <details id="o-gap" style="margin-top:10px"><summary style="font-weight:800;cursor:pointer">🗣 Gapirish savollari (ustoz so‘raydi)</summary><div class="gvar" id="o-gvar"></div><div id="o-gapm"></div></details>
     </div>
     <div class="card" style="margin-top:18px">
       <div class="head"><h3 style="font-weight:900;font-size:20px">Natijalar</h3><div class="sp soft" style="font-weight:800;font-size:14px">O'tish: jami ≥ 80 ball · qatorni bosing — javoblar, yozuv va baholash ochiladi</div></div>
@@ -120,8 +123,8 @@ h1{font-size:28px;font-weight:900}
 <div class="toast" id="toast" hidden></div>
 
 <script src="ombor.js?v=358fe828"></script>
-<script src="imt.js?v=17277fb5"></script>
-<script src="ustoz_matn.js?v=08b9e725"></script>
+<script src="imt.js?v=76b16584"></script>
+<script src="ustoz_matn.js?v=76e61599"></script>
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
@@ -193,7 +196,22 @@ h1{font-size:28px;font-weight:900}
     $("o-toggle").textContent = joriy.ochiq ? "🔒 Imtihonni yopish" : "🟢 Qayta ochish";
     $("o-toggle").className = "btn sm" + (joriy.ochiq ? "" : " alt");
     $("o-ochir").hidden = rol !== "direktor" || joriy.ochiq;
+    var g = (window.GAPIR || {})[joriy.imtihon];
+    $("o-gap").hidden = !g;
+    if (g) chizGap(joriy.variant);
   }
+  function chizGap(v){
+    var g = window.GAPIR[joriy.imtihon], d = g[v];
+    $("o-gvar").innerHTML = '<span class="soft" style="font-weight:700">Variant:</span>' + ["a", "b", "c"].filter(function(k){ return g[k]; }).map(function(k){
+      return '<button type="button" data-v="' + k + '" class="' + (k === v ? "on" : "") + '">' + VN[k] + (k === joriy.variant ? " ★" : "") + '</button>';
+    }).join("") + '<span class="soft" style="font-size:14px">★ — shu imtihon varianti. Har o‘quvchiga boshqa variant so‘rasangiz bo‘ladi.</span>';
+    $("o-gapm").innerHTML = (d.izoh ? '<div class="soft ar" dir="rtl" style="font-weight:700">' + esc(d.izoh) + '</div>' : '') + d.q.map(function(p){
+      return '<div class="gq2"><h4>' + esc(p.h) + '</h4>' + (p.img ? '<img src="' + p.img + '" alt="">' : '') +
+        (p.i.length ? '<ol>' + p.i.map(function(s){ return '<li>' + esc(s) + '</li>'; }).join("") + '</ol>' : '') +
+        (p.jd ? '<div class="jd">' + esc(p.jd) + '</div>' : '') + '</div>';
+    }).join("");
+  }
+  $("o-gvar").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) chizGap(b.getAttribute("data-v")); });
   $("o-ochir").addEventListener("click", function(){
     if (!confirm("«" + joriy.nom + "» imtihoni va undagi BARCHA natijalar butunlay o'chirilsinmi? Buni qaytarib bo'lmaydi.")) return;
     rpc("onl_sessiya_ochir", { p_id: joriy.id }).then(function(d){
@@ -246,8 +264,7 @@ h1{font-size:28px;font-weight:900}
       var b = m.yoz ? x.yozish : x.gapirish;
       h += '<div class="task"><div><b>' + (m.yoz ? "📝" : "🗣") + ' ' + m.nom + ' (0–' + m.max + ' ball)</b>';
       if (m.yoz) h += '<small class="ar" dir="rtl">' + esc(m.matn) + '</small><div class="ins" style="margin-top:6px">' + (x.insho ? esc(x.insho) : '<span class="soft">— yozmagan —</span>') + '</div>';
-      else if (m.savollar && m.savollar.length) h += '<small>Mavzu / savollar: <span class="ar">' + m.savollar.map(esc).join(" · ") + '</span></small>';
-      else h += '<small>Jonli so\'rang</small>';
+      else h += '<small>' + ((window.GAPIR || {})[joriy.imtihon] ? 'Savollar yuqorida: «🗣 Gapirish savollari»' : 'Jonli so\'rang') + '</small>';
       h += '</div><input class="bin" type="number" min="0" max="' + m.max + '" data-yoz="' + (m.yoz ? 1 : 0) + '" value="' + (b == null ? "" : b) + '" placeholder="?"></div>';
     });
     h += '<div class="acts"><button class="btn" id="saqla"' + (x.tugagan ? "" : " disabled") + '>Bahoni saqlash</button>' + (x.tugagan ? "" : '<span class="soft" style="font-weight:700;align-self:center">O\'quvchi topshirgach baholaysiz</span>') + '</div>';
