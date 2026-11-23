@@ -178,9 +178,25 @@ function boshla(){
   if(g.length)h+='<div class="izoh" style="text-align:center;margin-top:14px">🗣 Gapirish ('+g[0].max+' ball) — ustoz bilan jonli.</div>';
   $('m').innerHTML=h;
   $('pleer').hidden=!V.parts.some(function(p){return /Tinglash/.test(p.t)});
+  pleerSoz();
   $('nav').hidden=false;$('arr').hidden=false;
   bogla();tikla();ko(0);
   if(SINOV)toast('Sinov rejimi — natija bazaga yozilmaydi');
+}
+function pleerSoz(){
+  var pl=$('play'),bar=$('bar'),vq=$('vq');
+  if(window._au){window._au.pause();window._au=null}
+  if(!V.audio){pl.disabled=true;vq.textContent='🎧 Ustoz o‘qib beradi';return}
+  var au=new Audio(V.audio),qoldi=2;window._au=au;au.preload='auto';
+  function yoz(){vq.textContent=qoldi>0?'🎧 '+qoldi+' marta eshitish mumkin':'🎧 Tugadi'}
+  pl.disabled=false;pl.textContent='▶';yoz();
+  pl.onclick=function(){
+    if(!au.paused){au.pause();pl.textContent='▶';return}
+    if(au.ended||au.currentTime===0){if(qoldi<=0)return;if(au.ended)au.currentTime=0;qoldi--;yoz()}
+    au.play().catch(function(){toast('Ovoz ochilmadi, internetni tekshiring')});pl.textContent='⏸';
+  };
+  au.ontimeupdate=function(){if(au.duration)bar.style.width=(au.currentTime*100/au.duration)+'%'};
+  au.onended=function(){pl.textContent='▶';bar.style.width='100%';if(qoldi<=0)pl.disabled=true};
 }
 function fmt(x){return Math.round(x*10)/10}
 function nParts(){return V.parts.length+(V.qolda.some(function(m){return m.yoz})?1:0)}
